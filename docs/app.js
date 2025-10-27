@@ -24,7 +24,7 @@ class FlashcardManager {
     }
 
     generateId() {
-        return 'card_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        return 'card_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
     }
 
     addCard(front, back, difficulty) {
@@ -275,7 +275,7 @@ function loadAllCards() {
                         <span class="badge bg-${difficulty.color}">
                             ${difficulty.emoji} ${card.difficulty}
                         </span>
-                        <small class="text-muted">ID: ${card.id.substr(-8)}</small>
+                        <small class="text-muted">ID: ${card.id.slice(-8)}</small>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">📝 Front:</h5>
