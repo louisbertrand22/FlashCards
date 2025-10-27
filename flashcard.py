@@ -1,7 +1,7 @@
 """
 Flashcard class representing a single flashcard with recto, verso, and difficulty level.
 """
-import json
+import uuid
 from datetime import datetime, timedelta
 from enum import Enum
 
@@ -46,7 +46,7 @@ class Flashcard:
     
     def _generate_id(self):
         """Generate a unique ID for the flashcard."""
-        return f"card_{datetime.now().strftime('%Y%m%d%H%M%S%f')}"
+        return f"card_{uuid.uuid4().hex[:16]}"
     
     def mark_reviewed(self):
         """Mark the card as reviewed and schedule next review."""

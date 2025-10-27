@@ -1,7 +1,6 @@
 """
 Command-line interface for the Flashcard application.
 """
-import sys
 from flashcard import DifficultyLevel
 from flashcard_manager import FlashcardManager
 

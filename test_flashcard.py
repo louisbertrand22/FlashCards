@@ -60,7 +60,7 @@ def test_flashcard_review():
     card = Flashcard("Test question", "Test answer", DifficultyLevel.MEDIUM)
     
     # Initially should be due for review
-    assert card.is_due_for_review() == True
+    assert card.is_due_for_review()
     print("  ✓ New card is due for review")
     
     # Mark as reviewed
@@ -70,12 +70,12 @@ def test_flashcard_review():
     print("  ✓ Card marked as reviewed")
     
     # Should not be due immediately after review (3 day interval for MEDIUM)
-    assert card.is_due_for_review() == False
+    assert not card.is_due_for_review()
     print("  ✓ Card not due immediately after review")
     
     # Simulate time passing
     card.next_review = datetime.now() - timedelta(days=1)
-    assert card.is_due_for_review() == True
+    assert card.is_due_for_review()
     print("  ✓ Card becomes due after interval")
     
     print("✓ Test 3 passed!\n")
