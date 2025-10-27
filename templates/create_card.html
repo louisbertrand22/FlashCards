@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Create Card - FlashCards{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">📝 Create New Flashcard</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('create_card') }}">
+                    <div class="mb-3">
+                        <label for="recto" class="form-label">Front Side (Recto) <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="recto" name="recto" rows="3" required placeholder="Enter the question or prompt..."></textarea>
+                        <div class="form-text">This is what you'll see first when studying.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="verso" class="form-label">Back Side (Verso) <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="verso" name="verso" rows="3" required placeholder="Enter the answer..."></textarea>
+                        <div class="form-text">This is the answer that will be revealed.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="difficulty" class="form-label">Difficulty Level</label>
+                        <select class="form-select" id="difficulty" name="difficulty">
+                            <option value="EASY">🟢 Easy (review every 7 days)</option>
+                            <option value="MEDIUM" selected>🟡 Medium (review every 3 days)</option>
+                            <option value="HARD">🔴 Hard (review every 1 day)</option>
+                        </select>
+                        <div class="form-text">Choose how often you want to review this card.</div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('view_cards') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Create Flashcard</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-3 alert alert-info">
+            <strong>💡 Tip:</strong> Start with medium difficulty and adjust later based on how well you remember the card!
+        </div>
+    </div>
+</div>
+{% endblock %}

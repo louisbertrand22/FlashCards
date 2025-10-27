@@ -1,9 +1,11 @@
 # FlashCards Application
 
-A Python-based flashcard application for creating and studying flashcards with difficulty-based review scheduling. **Now with an enhanced, colorful CLI interface!**
+A Python-based flashcard application for creating and studying flashcards with difficulty-based review scheduling. **Now with both a web interface and an enhanced, colorful CLI interface!**
 
 ## Features
 
+- **Web Interface**: Modern, responsive web application built with Flask
+- **CLI Interface**: Beautiful, colorful command-line interface
 - **Create Flashcards**: Create flashcards with a front side (recto) and back side (verso)
 - **Difficulty Levels**: Assign difficulty levels that determine review frequency:
   - **Easy**: Review every 7 days
@@ -13,7 +15,7 @@ A Python-based flashcard application for creating and studying flashcards with d
 - **Study Mode**: Review flashcards that are due for study with interactive progress tracking
 - **Statistics**: View colorful statistics about your flashcard collection
 - **Persistence**: Flashcards are automatically saved to a JSON file
-- **Enhanced UI/UX**: Beautiful, colorful command-line interface with:
+- **Enhanced UI/UX**: 
   - Color-coded difficulty badges (🟢 Easy, 🟡 Medium, 🔴 Hard)
   - Visual progress bars during study sessions
   - Icons and emojis for better visual hierarchy
@@ -32,16 +34,43 @@ git clone https://github.com/louisbertrand22/FlashCards.git
 cd FlashCards
 ```
 
-2. No additional dependencies required - uses only Python standard library!
+2. (Optional) For the web interface, install Flask:
+```bash
+pip install -r requirements.txt
+```
+
+Note: The CLI interface uses only Python standard library and requires no additional dependencies!
 
 ## Usage
 
-Run the application:
+### Web Interface (Recommended)
+
+Run the web application:
+```bash
+python app.py
+```
+
+For development with debug mode enabled:
+```bash
+FLASK_ENV=development python app.py
+```
+
+Then open your browser and navigate to: `http://localhost:5000`
+
+The web interface provides:
+- Interactive dashboard with statistics
+- Easy card creation and management
+- Visual study mode with answer reveal
+- Responsive design that works on desktop and mobile
+
+### Command-Line Interface
+
+Run the CLI application:
 ```bash
 python main.py
 ```
 
-### Main Menu Options
+### CLI Main Menu Options
 
 1. **Create a new flashcard**: Add a flashcard with recto (front), verso (back), and difficulty level
 2. **View all flashcards**: Display all your flashcards with their details
@@ -53,6 +82,16 @@ python main.py
 
 ### Example Workflow
 
+**Web Interface:**
+1. Start the web app: `python app.py`
+2. Open your browser to `http://localhost:5000`
+3. Click "Create Card" to add a new flashcard
+4. Fill in the front side, back side, and select difficulty
+5. View your cards on the "All Cards" page
+6. Click "Study" when cards are due for review
+7. The app will automatically schedule the next review based on difficulty
+
+**CLI:**
 1. Start the application: `python main.py`
 2. Choose option 1 to create a new flashcard
 3. Enter the front side (e.g., "What is the capital of France?")
@@ -63,10 +102,19 @@ python main.py
 
 ## File Structure
 
+- `app.py`: Flask web application entry point
+- `templates/`: HTML templates for the web interface
+  - `base.html`: Base template with navigation
+  - `index.html`: Dashboard with statistics
+  - `cards.html`: View all flashcards
+  - `create_card.html`: Create new flashcard form
+  - `edit_card.html`: Edit flashcard difficulty
+  - `study.html`: Interactive study mode
+- `static/css/`: CSS stylesheets for the web interface
 - `main.py`: Command-line interface and application entry point with enhanced UI
 - `flashcard.py`: Flashcard class and difficulty level definitions
 - `flashcard_manager.py`: Manager class for flashcard collection operations
-- `ui_components.py`: UI utilities providing colors, formatting, and visual enhancements
+- `ui_components.py`: UI utilities providing colors, formatting, and visual enhancements for CLI
 - `flashcards.json`: Persistent storage file (created automatically)
 
 ## How Difficulty Affects Review Frequency
