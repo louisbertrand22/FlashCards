@@ -189,7 +189,7 @@ The project includes a CI/CD pipeline that automatically builds and publishes Do
 **Pull and run:**
 ```bash
 docker pull ghcr.io/louisbertrand22/flashcards:latest
-docker run -d -p 5000:5000 -v flashcards-data:/app/flashcards.json ghcr.io/louisbertrand22/flashcards:latest
+docker run -d -p 5000:5000 -v flashcards-data:/app ghcr.io/louisbertrand22/flashcards:latest
 ```
 
 ### Environment Variables
@@ -197,16 +197,18 @@ docker run -d -p 5000:5000 -v flashcards-data:/app/flashcards.json ghcr.io/louis
 The Docker container supports the following environment variables:
 
 - `FLASK_ENV`: Set to `development` for debug mode (default: `production`)
-- `FLASK_SECRET_KEY`: Secret key for Flask sessions (auto-generated if not provided)
+- `FLASK_SECRET_KEY`: Secret key for Flask sessions (default: `dev-secret-key-change-in-production`)
 
 Example with environment variables:
 ```bash
 docker run -d -p 5000:5000 \
   -e FLASK_ENV=production \
-  -e FLASK_SECRET_KEY=your-secret-key-here \
-  -v flashcards-data:/app/flashcards.json \
+  -e FLASK_SECRET_KEY=your-random-secret-key-here \
+  -v flashcards-data:/app \
   ghcr.io/louisbertrand22/flashcards:latest
 ```
+
+**Note:** For production deployments, always set a strong, random `FLASK_SECRET_KEY`.
 
 ## License
 

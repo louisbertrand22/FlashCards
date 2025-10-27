@@ -11,10 +11,12 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - FLASK_SECRET_KEY=your-secret-key-here
+      # WARNING: Change this secret key in production!
+      # Use: docker run -e FLASK_SECRET_KEY=your-random-secret-key ...
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-dev-change-this-key}
     volumes:
-      # Mount data directory for persistence
-      - flashcards-data:/app/flashcards.json
+      # Mount working directory for data persistence
+      - flashcards-data:/app
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
