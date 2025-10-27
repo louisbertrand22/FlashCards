@@ -198,7 +198,6 @@ class FlashcardCLI:
     
     def run(self):
         """Run the main application loop."""
-        ui.clear_screen()
         print(ui.colorize("\n✨ Welcome to the Flashcard Application! ✨", Colors.BRIGHT_MAGENTA))
         
         while self.running:

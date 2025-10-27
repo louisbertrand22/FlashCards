@@ -50,9 +50,7 @@ class Colors:
     def is_supported():
         """Check if terminal supports colors."""
         # Check if output is a terminal
-        if not hasattr(sys.stdout, 'isatty'):
-            return False
-        if not sys.stdout.isatty():
+        if not (hasattr(sys.stdout, 'isatty') and sys.stdout.isatty()):
             return False
         # Check if running on Windows without colorama
         if sys.platform == 'win32':
@@ -61,7 +59,7 @@ class Colors:
                 kernel32 = ctypes.windll.kernel32
                 kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
                 return True
-            except:
+            except (ImportError, AttributeError, OSError):
                 return False
         return True
 
