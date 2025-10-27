@@ -8,7 +8,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     FLASK_APP=app.py \
-    FLASK_ENV=production
+    FLASK_ENV=production \
+    FLASHCARD_DATA_DIR=/app/data
 
 # Copy requirements first for better caching
 COPY requirements.txt .
@@ -23,6 +24,7 @@ COPY static/ ./static/
 
 # Create a non-root user to run the app
 RUN useradd -m -u 1000 flashcard && \
+    mkdir -p /app/data && \
     chown -R flashcard:flashcard /app
 
 USER flashcard

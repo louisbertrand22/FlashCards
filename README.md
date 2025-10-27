@@ -164,7 +164,9 @@ Flashcards are stored in `flashcards.json` in the application directory. This fi
 
 ### Docker Volume Persistence
 
-When using Docker, flashcard data is persisted using Docker volumes. The `docker-compose.yml` configuration automatically sets up a volume to ensure your flashcards are not lost when the container is restarted or updated.
+When using Docker, flashcard data is persisted using Docker volumes mounted to `/app/data` directory. The `docker-compose.yml` configuration automatically sets up a volume to ensure your flashcards are not lost when the container is restarted or updated.
+
+The application automatically creates the data directory and stores `flashcards.json` in the configured location (default: current directory for local runs, `/app/data` for Docker).
 
 ## Docker Deployment
 
@@ -189,7 +191,7 @@ The project includes a CI/CD pipeline that automatically builds and publishes Do
 **Pull and run:**
 ```bash
 docker pull ghcr.io/louisbertrand22/flashcards:latest
-docker run -d -p 5000:5000 -v flashcards-data:/app ghcr.io/louisbertrand22/flashcards:latest
+docker run -d -p 5000:5000 -v flashcards-data:/app/data ghcr.io/louisbertrand22/flashcards:latest
 ```
 
 ### Environment Variables
@@ -198,13 +200,14 @@ The Docker container supports the following environment variables:
 
 - `FLASK_ENV`: Set to `development` for debug mode (default: `production`)
 - `FLASK_SECRET_KEY`: Secret key for Flask sessions (default: `dev-secret-key-change-in-production`)
+- `FLASHCARD_DATA_DIR`: Directory for storing flashcard data (default: `/app/data`)
 
 Example with environment variables:
 ```bash
 docker run -d -p 5000:5000 \
   -e FLASK_ENV=production \
   -e FLASK_SECRET_KEY=your-random-secret-key-here \
-  -v flashcards-data:/app \
+  -v flashcards-data:/app/data \
   ghcr.io/louisbertrand22/flashcards:latest
 ```
 
