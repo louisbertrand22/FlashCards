@@ -55,7 +55,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             # Tag with git short sha
-            type=sha,prefix={{branch}}-
+            type=sha
       
       - name: Build and push Docker image
         id: build
