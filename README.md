@@ -1,1 +1,81 @@
-# FlashCards
+# FlashCards Application
+
+A Python-based flashcard application for creating and studying flashcards with difficulty-based review scheduling.
+
+## Features
+
+- **Create Flashcards**: Create flashcards with a front side (recto) and back side (verso)
+- **Difficulty Levels**: Assign difficulty levels that determine review frequency:
+  - **Easy**: Review every 7 days
+  - **Medium**: Review every 3 days
+  - **Hard**: Review every 1 day
+- **Smart Scheduling**: Flashcards are automatically scheduled for review based on their difficulty level
+- **Study Mode**: Review flashcards that are due for study
+- **Statistics**: View statistics about your flashcard collection
+- **Persistence**: Flashcards are automatically saved to a JSON file
+
+## Requirements
+
+- Python 3.6 or higher
+
+## Installation
+
+1. Clone this repository:
+```bash
+git clone https://github.com/louisbertrand22/FlashCards.git
+cd FlashCards
+```
+
+2. No additional dependencies required - uses only Python standard library!
+
+## Usage
+
+Run the application:
+```bash
+python main.py
+```
+
+### Main Menu Options
+
+1. **Create a new flashcard**: Add a flashcard with recto (front), verso (back), and difficulty level
+2. **View all flashcards**: Display all your flashcards with their details
+3. **Study flashcards**: Review flashcards that are due for study
+4. **View statistics**: See statistics about your flashcard collection
+5. **Update card difficulty**: Change the difficulty level of an existing card
+6. **Delete a flashcard**: Remove a flashcard from your collection
+7. **Exit**: Save and exit the application
+
+### Example Workflow
+
+1. Start the application: `python main.py`
+2. Choose option 1 to create a new flashcard
+3. Enter the front side (e.g., "What is the capital of France?")
+4. Enter the back side (e.g., "Paris")
+5. Select difficulty level (1 for Easy, 2 for Medium, 3 for Hard)
+6. Use option 3 to study flashcards when they're due for review
+7. The app will automatically schedule the next review based on difficulty
+
+## File Structure
+
+- `main.py`: Command-line interface and application entry point
+- `flashcard.py`: Flashcard class and difficulty level definitions
+- `flashcard_manager.py`: Manager class for flashcard collection operations
+- `flashcards.json`: Persistent storage file (created automatically)
+
+## How Difficulty Affects Review Frequency
+
+The difficulty level determines how often a flashcard appears for review:
+
+- **Easy (1)**: Cards you find easy to remember - reviewed every 7 days
+- **Medium (2)**: Cards of moderate difficulty - reviewed every 3 days
+- **Hard (3)**: Cards you find difficult - reviewed daily
+
+When you mark a card as reviewed during a study session, it's automatically rescheduled based on its difficulty level.
+
+## Data Storage
+
+Flashcards are stored in `flashcards.json` in the application directory. This file is automatically created and updated as you add, modify, or delete flashcards.
+
+## License
+
+MIT License - Feel free to use and modify as needed!
