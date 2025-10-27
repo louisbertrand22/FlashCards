@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Study Mode - FlashCards{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">🎯 Study Mode</h1>
+    </div>
+</div>
+
+{% if cards %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="alert alert-warning text-center">
+            <h5>📚 {{ cards|length }} card(s) due for review!</h5>
+            <p class="mb-0">Click on a card to reveal the answer, then mark if you remembered it.</p>
+        </div>
+
+        <div id="study-cards">
+            {% for card in cards %}
+            <div class="card mb-4 study-card" id="card-{{ card.card_id }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="badge bg-{{ card.difficulty.name|difficulty_color }}">
+                        {{ card.difficulty.name|difficulty_emoji }} {{ card.difficulty.name }}
+                    </span>
+                    <span class="text-muted">Card {{ loop.index }} of {{ cards|length }}</span>
+                </div>
+                <div class="card-body">
+                    <div class="flashcard-front">
+                        <h5 class="card-title text-primary mb-3">Front:</h5>
+                        <div class="flashcard-content">
+                            <p class="lead">{{ card.recto }}</p>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="flashcard-back" style="display: none;">
+                        <h5 class="card-title text-success mb-3">Back:</h5>
+                        <div class="flashcard-content">
+                            <p class="lead">{{ card.verso }}</p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary btn-lg reveal-btn" onclick="revealAnswer('{{ card.card_id }}')">
+                            👁️ Reveal Answer
+                        </button>
+                        <div class="review-buttons" style="display: none;">
+                            <button class="btn btn-success btn-lg me-2" onclick="markReviewed('{{ card.card_id }}', true)">
+                                ✅ I Remembered
+                            </button>
+                            <button class="btn btn-danger btn-lg" onclick="markReviewed('{{ card.card_id }}', false)">
+                                ❌ I Didn't Remember
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="completion-message" style="display: none;">
+            <div class="alert alert-success text-center">
+                <h4>🎉 Great job!</h4>
+                <p>You've completed all due flashcards for now.</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-success text-center">
+    <h4>🎉 All caught up!</h4>
+    <p class="mb-3">You don't have any flashcards due for review right now.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Dashboard</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function revealAnswer(cardId) {
+    const card = document.getElementById('card-' + cardId);
+    card.querySelector('.flashcard-back').style.display = 'block';
+    card.querySelector('.reveal-btn').style.display = 'none';
+    card.querySelector('.review-buttons').style.display = 'block';
+}
+
+function markReviewed(cardId, remembered) {
+    if (remembered) {
+        fetch(`/cards/${cardId}/review`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showSuccess(cardId);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        showWarning(cardId);
+    }
+}
+
+function showSuccess(cardId) {
+    const card = document.getElementById('card-' + cardId);
+    card.style.opacity = '0.5';
+    card.querySelector('.card-body').innerHTML = '<div class="alert alert-success text-center"><h5>✅ Marked as reviewed!</h5><p class="mb-0">This card has been scheduled for next review.</p></div>';
+    
+    setTimeout(() => {
+        card.style.display = 'none';
+        checkCompletion();
+    }, 1500);
+}
+
+function showWarning(cardId) {
+    const card = document.getElementById('card-' + cardId);
+    card.style.opacity = '0.5';
+    card.querySelector('.card-body').innerHTML = '<div class="alert alert-warning text-center"><h5>📌 Needs more practice</h5><p class="mb-0">This card will remain in your review queue.</p></div>';
+    
+    setTimeout(() => {
+        card.style.display = 'none';
+        checkCompletion();
+    }, 1500);
+}
+
+function checkCompletion() {
+    const visibleCards = document.querySelectorAll('.study-card:not([style*="display: none"])');
+    if (visibleCards.length === 0) {
+        document.getElementById('completion-message').style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

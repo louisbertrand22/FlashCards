@@ -1,0 +1,186 @@
+/* FlashCards Web App Styles */
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-icon {
+    font-size: 1.8rem;
+    vertical-align: middle;
+}
+
+/* Stat Cards */
+.stat-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card .display-4 {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Flashcard Styles */
+.flashcard {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid #e9ecef;
+}
+
+.flashcard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flashcard.border-warning {
+    border-color: var(--warning-color) !important;
+    border-width: 3px;
+}
+
+.card-meta {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Study Mode */
+.study-card {
+    border: 2px solid #0d6efd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.flashcard-content {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.flashcard-content .lead {
+    font-size: 1.3rem;
+    margin: 0;
+    text-align: center;
+}
+
+.reveal-btn, .review-buttons {
+    transition: all 0.3s ease;
+}
+
+/* Footer */
+.footer {
+    background-color: rgba(255, 255, 255, 0.95);
+    margin-top: auto;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Difficulty badges */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.8em;
+}
+
+/* Buttons */
+.btn {
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Form styles */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Alert styles */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .stat-card .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+}
+
+/* Difficulty stats styling */
+.difficulty-stats {
+    font-size: 1.1rem;
+}
+
+.difficulty-stats .badge {
+    font-size: 1rem;
+    min-width: 40px;
+}
