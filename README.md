@@ -50,6 +50,11 @@ Run the web application:
 python app.py
 ```
 
+For development with debug mode enabled:
+```bash
+FLASK_ENV=development python app.py
+```
+
 Then open your browser and navigate to: `http://localhost:5000`
 
 The web interface provides:
