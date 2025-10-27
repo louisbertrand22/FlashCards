@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  flashcards:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flashcards:latest
+    container_name: flashcards-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_SECRET_KEY=your-secret-key-here
+    volumes:
+      # Mount data directory for persistence
+      - flashcards-data:/app/flashcards.json
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  flashcards-data:
+    driver: local

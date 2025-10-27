@@ -25,8 +25,11 @@ A Python-based flashcard application for creating and studying flashcards with d
 ## Requirements
 
 - Python 3.6 or higher
+- Docker (optional, for containerized deployment)
 
 ## Installation
+
+### Option 1: Standard Installation
 
 1. Clone this repository:
 ```bash
@@ -40,6 +43,34 @@ pip install -r requirements.txt
 ```
 
 Note: The CLI interface uses only Python standard library and requires no additional dependencies!
+
+### Option 2: Docker Installation
+
+Run the application using Docker:
+
+```bash
+# Pull the latest image from GitHub Container Registry
+docker pull ghcr.io/louisbertrand22/flashcards:latest
+
+# Run the container
+docker run -d -p 5000:5000 --name flashcards ghcr.io/louisbertrand22/flashcards:latest
+```
+
+Or use Docker Compose for easy setup:
+
+```bash
+# Clone the repository (if not already done)
+git clone https://github.com/louisbertrand22/FlashCards.git
+cd FlashCards
+
+# Start the application
+docker-compose up -d
+
+# Stop the application
+docker-compose down
+```
+
+The Docker image is automatically built and published to GitHub Container Registry (ghcr.io) on every push to the main branch.
 
 ## Usage
 
@@ -130,6 +161,52 @@ When you mark a card as reviewed during a study session, it's automatically resc
 ## Data Storage
 
 Flashcards are stored in `flashcards.json` in the application directory. This file is automatically created and updated as you add, modify, or delete flashcards.
+
+### Docker Volume Persistence
+
+When using Docker, flashcard data is persisted using Docker volumes. The `docker-compose.yml` configuration automatically sets up a volume to ensure your flashcards are not lost when the container is restarted or updated.
+
+## Docker Deployment
+
+### Building Your Own Image
+
+To build the Docker image locally:
+
+```bash
+docker build -t flashcards .
+```
+
+### Using GitHub Container Registry
+
+The project includes a CI/CD pipeline that automatically builds and publishes Docker images to GitHub Container Registry (ghcr.io) when changes are pushed to the main branch.
+
+**Available tags:**
+- `latest` - Latest stable version from the main branch
+- `main` - Latest build from the main branch
+- `v*` - Semantic version tags (e.g., v1.0.0)
+- Git SHA tags for specific commits
+
+**Pull and run:**
+```bash
+docker pull ghcr.io/louisbertrand22/flashcards:latest
+docker run -d -p 5000:5000 -v flashcards-data:/app/flashcards.json ghcr.io/louisbertrand22/flashcards:latest
+```
+
+### Environment Variables
+
+The Docker container supports the following environment variables:
+
+- `FLASK_ENV`: Set to `development` for debug mode (default: `production`)
+- `FLASK_SECRET_KEY`: Secret key for Flask sessions (auto-generated if not provided)
+
+Example with environment variables:
+```bash
+docker run -d -p 5000:5000 \
+  -e FLASK_ENV=production \
+  -e FLASK_SECRET_KEY=your-secret-key-here \
+  -v flashcards-data:/app/flashcards.json \
+  ghcr.io/louisbertrand22/flashcards:latest
+```
 
 ## License
 
