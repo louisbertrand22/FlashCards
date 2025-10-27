@@ -12,8 +12,14 @@ app = Flask(__name__)
 # Use environment variable for secret key in production, fallback to default for development
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key-change-in-production')
 
+# Configure data directory for Docker volume persistence
+data_dir = os.environ.get('FLASHCARD_DATA_DIR', '.')
+if not os.path.exists(data_dir):
+    os.makedirs(data_dir)
+storage_file = os.path.join(data_dir, 'flashcards.json')
+
 # Initialize flashcard manager
-manager = FlashcardManager()
+manager = FlashcardManager(storage_file=storage_file)
 
 
 @app.route('/')
