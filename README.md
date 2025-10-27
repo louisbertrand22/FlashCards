@@ -1,6 +1,6 @@
 # FlashCards Application
 
-A Python-based flashcard application for creating and studying flashcards with difficulty-based review scheduling.
+A Python-based flashcard application for creating and studying flashcards with difficulty-based review scheduling. **Now with an enhanced, colorful CLI interface!**
 
 ## Features
 
@@ -10,9 +10,15 @@ A Python-based flashcard application for creating and studying flashcards with d
   - **Medium**: Review every 3 days
   - **Hard**: Review every 1 day
 - **Smart Scheduling**: Flashcards are automatically scheduled for review based on their difficulty level
-- **Study Mode**: Review flashcards that are due for study
-- **Statistics**: View statistics about your flashcard collection
+- **Study Mode**: Review flashcards that are due for study with interactive progress tracking
+- **Statistics**: View colorful statistics about your flashcard collection
 - **Persistence**: Flashcards are automatically saved to a JSON file
+- **Enhanced UI/UX**: Beautiful, colorful command-line interface with:
+  - Color-coded difficulty badges (🟢 Easy, 🟡 Medium, 🔴 Hard)
+  - Visual progress bars during study sessions
+  - Icons and emojis for better visual hierarchy
+  - Clear status indicators and feedback messages
+  - Improved formatting and spacing
 
 ## Requirements
 
@@ -57,9 +63,10 @@ python main.py
 
 ## File Structure
 
-- `main.py`: Command-line interface and application entry point
+- `main.py`: Command-line interface and application entry point with enhanced UI
 - `flashcard.py`: Flashcard class and difficulty level definitions
 - `flashcard_manager.py`: Manager class for flashcard collection operations
+- `ui_components.py`: UI utilities providing colors, formatting, and visual enhancements
 - `flashcards.json`: Persistent storage file (created automatically)
 
 ## How Difficulty Affects Review Frequency
