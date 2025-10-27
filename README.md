@@ -2,9 +2,14 @@
 
 A Python-based flashcard application for creating and studying flashcards with difficulty-based review scheduling. **Now with both a web interface and an enhanced, colorful CLI interface!**
 
+## 🌐 Try it Online!
+
+**[Launch FlashCards Web App](https://louisbertrand22.github.io/FlashCards/)** - No installation required! Uses your browser's local storage.
+
 ## Features
 
-- **Web Interface**: Modern, responsive web application built with Flask
+- **Static Web App**: Pure client-side application hosted on GitHub Pages (no server required!)
+- **Web Interface**: Modern, responsive web application built with Flask (for local/Docker deployment)
 - **CLI Interface**: Beautiful, colorful command-line interface
 - **Create Flashcards**: Create flashcards with a front side (recto) and back side (verso)
 - **Difficulty Levels**: Assign difficulty levels that determine review frequency:
@@ -24,12 +29,27 @@ A Python-based flashcard application for creating and studying flashcards with d
 
 ## Requirements
 
+### For the Static Web App (GitHub Pages)
+- Just a modern web browser! No installation needed.
+- Visit: [https://louisbertrand22.github.io/FlashCards/](https://louisbertrand22.github.io/FlashCards/)
+
+### For Local/Docker Deployment
 - Python 3.6 or higher
 - Docker (optional, for containerized deployment)
 
 ## Installation
 
-### Option 1: Standard Installation
+### Option 1: Use the Online Version (Recommended for Quick Start)
+
+Simply visit **[https://louisbertrand22.github.io/FlashCards/](https://louisbertrand22.github.io/FlashCards/)** in your web browser. Your flashcards are stored locally in your browser using localStorage, so they persist between sessions.
+
+**Benefits:**
+- No installation required
+- Works offline once loaded
+- Data stays private in your browser
+- Same features as the Flask version
+
+### Option 2: Standard Installation
 
 1. Clone this repository:
 ```bash
@@ -44,7 +64,7 @@ pip install -r requirements.txt
 
 Note: The CLI interface uses only Python standard library and requires no additional dependencies!
 
-### Option 2: Docker Installation
+### Option 3: Docker Installation
 
 Run the application using Docker:
 
@@ -212,6 +232,37 @@ docker run -d -p 5000:5000 \
 ```
 
 **Note:** For production deployments, always set a strong, random `FLASK_SECRET_KEY`.
+
+## GitHub Pages Deployment
+
+The project includes an automatic deployment to GitHub Pages. The static web version is deployed from the `docs/` directory.
+
+**Live URL:** [https://louisbertrand22.github.io/FlashCards/](https://louisbertrand22.github.io/FlashCards/)
+
+### How it Works
+
+1. The static web app in the `docs/` directory uses pure HTML, CSS, and JavaScript
+2. Data is stored in the browser's localStorage (no backend required)
+3. GitHub Actions automatically deploys changes when pushed to the main branch
+4. The app works offline once loaded in the browser
+
+### Key Differences from Flask Version
+
+The GitHub Pages version is a client-side only application:
+- **Storage**: Uses browser localStorage instead of JSON files
+- **Data Privacy**: All data stays in your browser, never sent to a server
+- **No Backend**: Pure JavaScript implementation, no Python/Flask required
+- **Same Features**: All core functionality (create, study, edit, delete cards) works identically
+
+### Manual Deployment
+
+If you fork this repository and want to enable GitHub Pages:
+
+1. Go to your repository Settings
+2. Navigate to Pages section
+3. Under "Build and deployment", select:
+   - **Source**: GitHub Actions
+4. The workflow will automatically deploy on the next push to main
 
 ## License
 
