@@ -93,13 +93,23 @@ function markReviewed(cardId, remembered) {
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to mark card as reviewed');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 showSuccess(cardId);
+            } else {
+                showError(cardId, data.message || 'Failed to mark card as reviewed');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showError(cardId, 'An error occurred. Please try again.');
+        });
     } else {
         showWarning(cardId);
     }
@@ -108,10 +118,11 @@ function markReviewed(cardId, remembered) {
 function showSuccess(cardId) {
     const card = document.getElementById('card-' + cardId);
     card.style.opacity = '0.5';
+    card.classList.add('card-completed');
     card.querySelector('.card-body').innerHTML = '<div class="alert alert-success text-center"><h5>✅ Marked as reviewed!</h5><p class="mb-0">This card has been scheduled for next review.</p></div>';
     
     setTimeout(() => {
-        card.style.display = 'none';
+        card.classList.add('hidden');
         checkCompletion();
     }, 1500);
 }
@@ -119,16 +130,22 @@ function showSuccess(cardId) {
 function showWarning(cardId) {
     const card = document.getElementById('card-' + cardId);
     card.style.opacity = '0.5';
+    card.classList.add('card-completed');
     card.querySelector('.card-body').innerHTML = '<div class="alert alert-warning text-center"><h5>📌 Needs more practice</h5><p class="mb-0">This card will remain in your review queue.</p></div>';
     
     setTimeout(() => {
-        card.style.display = 'none';
+        card.classList.add('hidden');
         checkCompletion();
     }, 1500);
 }
 
+function showError(cardId, message) {
+    const card = document.getElementById('card-' + cardId);
+    card.querySelector('.card-body').innerHTML = `<div class="alert alert-danger text-center"><h5>❌ Error</h5><p class="mb-0">${message}</p></div>`;
+}
+
 function checkCompletion() {
-    const visibleCards = document.querySelectorAll('.study-card:not([style*="display: none"])');
+    const visibleCards = document.querySelectorAll('.study-card:not(.hidden)');
     if (visibleCards.length === 0) {
         document.getElementById('completion-message').style.display = 'block';
     }

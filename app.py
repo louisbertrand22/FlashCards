@@ -2,13 +2,15 @@
 Flask web application for the Flashcard application.
 Provides a web-based interface for managing and studying flashcards.
 """
+import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 from flashcard import DifficultyLevel
 from flashcard_manager import FlashcardManager
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'flashcard-secret-key-change-in-production'
+# Use environment variable for secret key in production, fallback to default for development
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key-change-in-production')
 
 # Initialize flashcard manager
 manager = FlashcardManager()
