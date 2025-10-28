@@ -39,6 +39,13 @@ class FlashcardCLI:
             print(ui.error("Back side cannot be empty!"))
             return
         
+        # Category input
+        categories = self.manager.get_all_categories()
+        if categories:
+            print(f"\n{ui.bold('Existing categories:')} {', '.join(categories)}")
+        category = input(ui.prompt("Enter category (optional, press Enter to skip)")).strip()
+        category = category if category else None
+        
         print("\n" + ui.bold("Select difficulty level:"))
         print(ui.menu_option(1, "Easy (review every 7 days)", "🟢"))
         print(ui.menu_option(2, "Medium (review every 3 days)", "🟡"))
@@ -55,9 +62,11 @@ class FlashcardCLI:
         
         difficulty = difficulty_map.get(difficulty_choice, DifficultyLevel.MEDIUM)
         
-        card = self.manager.add_flashcard(recto, verso, difficulty)
+        card = self.manager.add_flashcard(recto, verso, difficulty, category=category)
         print(f"\n{ui.success('Flashcard created successfully!')}")
         print(f"  {ui.colorize('ID:', Colors.CYAN)} {card.card_id}")
+        if card.category:
+            print(f"  {ui.colorize('Category:', Colors.CYAN)} 📁 {card.category}")
         print(f"  {ui.colorize('Difficulty:', Colors.CYAN)} {ui.difficulty_badge(card.difficulty.name)}")
     
     def view_all_flashcards(self):
@@ -75,7 +84,8 @@ class FlashcardCLI:
             else:
                 due_status = ui.colorize("○ Not due", Colors.DIM)
             
-            print(f"\n{ui.colorize(str(i), Colors.BRIGHT_CYAN)}. [{due_status}] {ui.difficulty_badge(card.difficulty.name)}")
+            category_badge = f" 📁 {card.category}" if card.category else ""
+            print(f"\n{ui.colorize(str(i), Colors.BRIGHT_CYAN)}. [{due_status}] {ui.difficulty_badge(card.difficulty.name)}{category_badge}")
             print(f"   {ui.colorize('Recto:', Colors.YELLOW)} {card.recto}")
             print(f"   {ui.colorize('Verso:', Colors.YELLOW)} {card.verso}")
             print(f"   {ui.colorize('Reviews:', Colors.CYAN)} {card.review_count}")
