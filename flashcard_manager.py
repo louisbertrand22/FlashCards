@@ -115,10 +115,10 @@ class FlashcardManager:
             # and sample data exists (for initial deployment)
             storage_basename = os.path.basename(self.storage_file)
             if storage_basename == self.DEFAULT_STORAGE_FILE:
-                sample_file = self.SAMPLE_DATA_FILE
-                storage_dir = os.path.dirname(self.storage_file)
-                if storage_dir:
-                    sample_file = os.path.join(storage_dir, self.SAMPLE_DATA_FILE)
+                # Look for sample file in the same directory as this Python module
+                # This ensures it works both when storage is in current dir and in /app/data
+                module_dir = os.path.dirname(os.path.abspath(__file__))
+                sample_file = os.path.join(module_dir, self.SAMPLE_DATA_FILE)
                 
                 if os.path.exists(sample_file):
                     try:
