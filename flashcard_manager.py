@@ -18,8 +18,8 @@ class FlashcardManager:
         Initialize the flashcard manager.
         
         Args:
-            storage_file (str): Path to the JSON file for storing flashcards.
-                                Defaults to DEFAULT_STORAGE_FILE if not provided.
+            storage_file (str, optional): Path to the JSON file for storing flashcards.
+                                          Defaults to DEFAULT_STORAGE_FILE ('flashcards.json') if None.
         """
         self.storage_file = storage_file if storage_file is not None else self.DEFAULT_STORAGE_FILE
         self.flashcards = []
