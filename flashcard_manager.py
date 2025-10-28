@@ -130,7 +130,7 @@ class FlashcardManager:
         """Load flashcards from the storage file."""
         if os.path.exists(self.storage_file):
             try:
-                with open(self.storage_file, 'r') as f:
+                with open(self.storage_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     self.flashcards = [Flashcard.from_dict(card_data) for card_data in data]
             except (json.JSONDecodeError, KeyError):
