@@ -106,7 +106,31 @@ class FlashcardManager:
                 print(f"Warning: Could not load flashcards from {self.storage_file}")
                 self.flashcards = []
         else:
-            self.flashcards = []
+            # Try to load sample data if this is the default storage file
+            # and sample data exists (for initial deployment)
+            storage_basename = os.path.basename(self.storage_file)
+            if storage_basename == 'flashcards.json':
+                sample_file = 'sample_flashcards.json'
+                storage_dir = os.path.dirname(self.storage_file)
+                if storage_dir:
+                    sample_file = os.path.join(storage_dir, 'sample_flashcards.json')
+                
+                if os.path.exists(sample_file):
+                    try:
+                        with open(sample_file, 'r') as f:
+                            data = json.load(f)
+                            self.flashcards = [Flashcard.from_dict(card_data) for card_data in data]
+                        # Save to the main storage file for future use
+                        self.save_flashcards()
+                        print(f"Loaded {len(self.flashcards)} sample flashcards")
+                    except (json.JSONDecodeError, KeyError):
+                        print(f"Warning: Could not load sample flashcards from {sample_file}")
+                        self.flashcards = []
+                else:
+                    self.flashcards = []
+            else:
+                # For non-default files (e.g., test files), start with empty list
+                self.flashcards = []
     
     def update_card_difficulty(self, card_id, new_difficulty):
         """
