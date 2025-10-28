@@ -25,7 +25,7 @@ class FlashcardManager:
         self.flashcards = []
         self.load_flashcards()
     
-    def add_flashcard(self, recto, verso, difficulty=DifficultyLevel.MEDIUM):
+    def add_flashcard(self, recto, verso, difficulty=DifficultyLevel.MEDIUM, category=None):
         """
         Add a new flashcard.
         
@@ -33,11 +33,12 @@ class FlashcardManager:
             recto (str): Front side of the card
             verso (str): Back side of the card
             difficulty (DifficultyLevel): Difficulty level
+            category (str): Optional category for organizing cards
             
         Returns:
             Flashcard: The created flashcard
         """
-        card = Flashcard(recto, verso, difficulty)
+        card = Flashcard(recto, verso, difficulty, category=category)
         self.flashcards.append(card)
         self.save_flashcards()
         return card
@@ -93,6 +94,31 @@ class FlashcardManager:
             list: List of flashcards with the specified difficulty
         """
         return [card for card in self.flashcards if card.difficulty == difficulty]
+    
+    def get_flashcards_by_category(self, category):
+        """
+        Get all flashcards of a specific category.
+        
+        Args:
+            category (str): The category name
+            
+        Returns:
+            list: List of flashcards with the specified category
+        """
+        return [card for card in self.flashcards if card.category == category]
+    
+    def get_all_categories(self):
+        """
+        Get all unique categories from flashcards.
+        
+        Returns:
+            list: Sorted list of unique category names (excluding None)
+        """
+        categories = set()
+        for card in self.flashcards:
+            if card.category:
+                categories.add(card.category)
+        return sorted(list(categories))
     
     def save_flashcards(self):
         """Save flashcards to the storage file."""

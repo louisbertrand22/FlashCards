@@ -27,12 +27,13 @@ class FlashcardManager {
         return 'card_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
     }
 
-    addCard(front, back, difficulty) {
+    addCard(front, back, difficulty, category = null) {
         const card = {
             id: this.generateId(),
             front: front,
             back: back,
             difficulty: difficulty,
+            category: category,
             createdAt: new Date().toISOString(),
             lastReviewed: null,
             nextReview: new Date().toISOString(),
@@ -126,6 +127,20 @@ class FlashcardManager {
             byDifficulty,
             progress
         };
+    }
+
+    getCardsByCategory(category) {
+        return this.cards.filter(card => card.category === category);
+    }
+
+    getAllCategories() {
+        const categories = new Set();
+        this.cards.forEach(card => {
+            if (card.category) {
+                categories.add(card.category);
+            }
+        });
+        return Array.from(categories).sort();
     }
 }
 
@@ -243,15 +258,41 @@ function loadDashboard() {
 }
 
 // All cards functions
-function loadAllCards() {
-    const cards = manager.getAllCards();
+let currentCategoryFilter = null;
+
+function loadAllCards(categoryFilter = null) {
+    currentCategoryFilter = categoryFilter;
+    const cards = categoryFilter ? manager.getCardsByCategory(categoryFilter) : manager.getAllCards();
+    const categories = manager.getAllCategories();
     const container = document.getElementById('cards-container');
+    const filterContainer = document.getElementById('category-filter-container');
+
+    // Render category filter
+    if (categories.length > 0) {
+        filterContainer.innerHTML = `
+            <div class="mb-3">
+                <label class="form-label">Filter by Category:</label>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-sm ${!categoryFilter ? 'btn-primary' : 'btn-outline-primary'}" onclick="loadAllCards(null)">
+                        All
+                    </button>
+                    ${categories.map(cat => `
+                        <button class="btn btn-sm ${categoryFilter === cat ? 'btn-primary' : 'btn-outline-primary'}" onclick="loadAllCards('${cat}')">
+                            ${escapeHtml(cat)}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    } else {
+        filterContainer.innerHTML = '';
+    }
 
     if (cards.length === 0) {
         container.innerHTML = `
             <div class="col-md-12">
                 <div class="alert alert-info text-center">
-                    <h4>No flashcards yet</h4>
+                    <h4>No flashcards${categoryFilter ? ' in this category' : ''} yet</h4>
                     <p class="mb-0">
                         <a href="#" onclick="showView('create-card')" class="alert-link">Create your first card</a> 
                         to get started!
@@ -272,9 +313,12 @@ function loadAllCards() {
             <div class="col-md-6 mb-4">
                 <div class="card flashcard ${isDue ? 'border-warning' : ''}">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <span class="badge bg-${difficulty.color}">
-                            ${difficulty.emoji} ${card.difficulty}
-                        </span>
+                        <div>
+                            <span class="badge bg-${difficulty.color}">
+                                ${difficulty.emoji} ${card.difficulty}
+                            </span>
+                            ${card.category ? `<span class="badge bg-info">📁 ${escapeHtml(card.category)}</span>` : ''}
+                        </div>
                         <small class="text-muted">ID: ${card.id.slice(-8)}</small>
                     </div>
                     <div class="card-body">
@@ -312,17 +356,21 @@ document.getElementById('create-card-form').addEventListener('submit', function(
     const front = document.getElementById('card-front').value.trim();
     const back = document.getElementById('card-back').value.trim();
     const difficulty = document.getElementById('card-difficulty').value;
+    const category = document.getElementById('card-category').value.trim() || null;
 
     if (!front || !back) {
         showAlert('Both front and back sides are required!', 'danger');
         return;
     }
 
-    manager.addCard(front, back, difficulty);
+    manager.addCard(front, back, difficulty, category);
     showAlert('Flashcard created successfully!', 'success');
     
     // Reset form
     this.reset();
+    
+    // Update category datalist
+    updateCategoryDatalist();
     
     // Go back to all cards view
     showView('all-cards');
@@ -469,7 +517,7 @@ function saveCardEdit() {
 
     if (manager.updateCardDifficulty(cardId, difficulty)) {
         showAlert('Card difficulty updated successfully!', 'success');
-        loadAllCards();
+        loadAllCards(currentCategoryFilter);
         
         const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
         modal.hide();
@@ -483,7 +531,7 @@ function confirmDelete(cardId) {
     if (confirm('Are you sure you want to delete this flashcard? This action cannot be undone.')) {
         if (manager.deleteCard(cardId)) {
             showAlert('Flashcard deleted successfully!', 'success');
-            loadAllCards();
+            loadAllCards(currentCategoryFilter);
         } else {
             showAlert('Failed to delete card!', 'danger');
         }
@@ -518,7 +566,14 @@ function formatDate(dateString) {
     }
 }
 
+function updateCategoryDatalist() {
+    const categories = manager.getAllCategories();
+    const datalist = document.getElementById('category-suggestions');
+    datalist.innerHTML = categories.map(cat => `<option value="${escapeHtml(cat)}">`).join('');
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    updateCategoryDatalist();
     showView('dashboard');
 });

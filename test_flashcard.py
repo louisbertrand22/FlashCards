@@ -173,6 +173,63 @@ def test_serialization():
     return True
 
 
+def test_category_functionality():
+    """Test category functionality."""
+    print("Test 6: Testing category functionality...")
+    
+    # Use a test file
+    test_file = 'test_flashcards_category.json'
+    
+    # Clean up if exists
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    # Create manager
+    manager = FlashcardManager(test_file)
+    
+    # Add cards with categories
+    card1 = manager.add_flashcard("Python question", "Python answer", DifficultyLevel.EASY, category="Programming")
+    card2 = manager.add_flashcard("History question", "History answer", DifficultyLevel.MEDIUM, category="History")
+    card3 = manager.add_flashcard("Math question", "Math answer", DifficultyLevel.HARD, category="Math")
+    card4 = manager.add_flashcard("Another Python question", "Another Python answer", DifficultyLevel.EASY, category="Programming")
+    card5 = manager.add_flashcard("No category question", "No category answer", DifficultyLevel.MEDIUM)
+    
+    assert len(manager.get_all_flashcards()) == 5
+    print("  ✓ Added 5 flashcards with categories")
+    
+    # Test get by category
+    programming_cards = manager.get_flashcards_by_category("Programming")
+    assert len(programming_cards) == 2
+    print("  ✓ Retrieved cards by category")
+    
+    # Test get all categories
+    categories = manager.get_all_categories()
+    assert len(categories) == 3
+    assert "Programming" in categories
+    assert "History" in categories
+    assert "Math" in categories
+    print("  ✓ Retrieved all categories")
+    
+    # Test persistence with category
+    manager2 = FlashcardManager(test_file)
+    assert len(manager2.get_all_flashcards()) == 5
+    restored_card = manager2.get_flashcard(card1.card_id)
+    assert restored_card.category == "Programming"
+    print("  ✓ Categories persisted to file")
+    
+    # Test backward compatibility with None category
+    no_cat_cards = [c for c in manager2.get_all_flashcards() if c.category is None]
+    assert len(no_cat_cards) == 1
+    print("  ✓ Backward compatibility with None category")
+    
+    # Clean up
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    print("✓ Test 6 passed!\n")
+    return True
+
+
 def run_all_tests():
     """Run all tests."""
     print("=" * 60)
@@ -185,7 +242,8 @@ def run_all_tests():
         test_difficulty_intervals,
         test_flashcard_review,
         test_flashcard_manager,
-        test_serialization
+        test_serialization,
+        test_category_functionality
     ]
     
     passed = 0

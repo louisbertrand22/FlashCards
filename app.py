@@ -32,8 +32,13 @@ def index():
 @app.route('/cards')
 def view_cards():
     """View all flashcards."""
-    cards = manager.get_all_flashcards()
-    return render_template('cards.html', cards=cards)
+    category_filter = request.args.get('category')
+    if category_filter:
+        cards = manager.get_flashcards_by_category(category_filter)
+    else:
+        cards = manager.get_all_flashcards()
+    categories = manager.get_all_categories()
+    return render_template('cards.html', cards=cards, categories=categories, selected_category=category_filter)
 
 
 @app.route('/cards/new', methods=['GET', 'POST'])
@@ -43,17 +48,19 @@ def create_card():
         recto = request.form.get('recto', '').strip()
         verso = request.form.get('verso', '').strip()
         difficulty = request.form.get('difficulty', 'MEDIUM')
+        category = request.form.get('category', '').strip() or None
         
         if not recto or not verso:
             flash('Both front and back sides are required!', 'error')
             return render_template('create_card.html')
         
         difficulty_level = DifficultyLevel[difficulty]
-        card = manager.add_flashcard(recto, verso, difficulty_level)
+        card = manager.add_flashcard(recto, verso, difficulty_level, category=category)
         flash(f'Flashcard created successfully! (ID: {card.card_id})', 'success')
         return redirect(url_for('view_cards'))
     
-    return render_template('create_card.html')
+    categories = manager.get_all_categories()
+    return render_template('create_card.html', categories=categories)
 
 
 @app.route('/cards/<card_id>/edit', methods=['GET', 'POST'])
