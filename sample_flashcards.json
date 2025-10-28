@@ -1,0 +1,162 @@
+[
+  {
+    "card_id": "card_65e0698d0ec94331",
+    "recto": "What does HTML stand for?",
+    "verso": "HyperText Markup Language",
+    "difficulty": "EASY",
+    "created_at": "2025-10-28T17:39:58.858461",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858465",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_715eed414d934c4b",
+    "recto": "What is the command to print in Python?",
+    "verso": "print()",
+    "difficulty": "EASY",
+    "created_at": "2025-10-28T17:39:58.858474",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858474",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_08d144e720064c89",
+    "recto": "What does CSS stand for?",
+    "verso": "Cascading Style Sheets",
+    "difficulty": "EASY",
+    "created_at": "2025-10-28T17:39:58.858480",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858480",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_f765a13589524f4d",
+    "recto": "What is the chemical formula for water?",
+    "verso": "H2O",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858484",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858485",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_c2be9e55642948ac",
+    "recto": "What is the speed of light in vacuum?",
+    "verso": "299,792,458 meters per second (approximately 300,000 km/s)",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858489",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858489",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_2e9f9f3634ba43b3",
+    "recto": "What is photosynthesis?",
+    "verso": "The process by which plants convert light energy into chemical energy (glucose) using chlorophyll, carbon dioxide, and water",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858493",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858493",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_3f9f9ca25a7b468d",
+    "recto": "In what year did World War II end?",
+    "verso": "1945",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858496",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858496",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_a848f22bd00c4964",
+    "recto": "Who wrote the Declaration of Independence?",
+    "verso": "Thomas Jefferson (with input from Benjamin Franklin and John Adams)",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858500",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858500",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_1e406f1ebeb44753",
+    "recto": "What is the Pythagorean theorem?",
+    "verso": "a\u00b2 + b\u00b2 = c\u00b2, where c is the hypotenuse of a right triangle and a and b are the other two sides",
+    "difficulty": "HARD",
+    "created_at": "2025-10-28T17:39:58.858504",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858504",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_7259e291b2e1429d",
+    "recto": "What is Euler's identity?",
+    "verso": "e^(i\u03c0) + 1 = 0, relating the five fundamental mathematical constants",
+    "difficulty": "HARD",
+    "created_at": "2025-10-28T17:39:58.858507",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858508",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_2b08ee71b9db4ef7",
+    "recto": "What is the capital of France?",
+    "verso": "Paris",
+    "difficulty": "EASY",
+    "created_at": "2025-10-28T17:39:58.858511",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858511",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_4eb90e6791e0467b",
+    "recto": "What is the largest ocean on Earth?",
+    "verso": "The Pacific Ocean",
+    "difficulty": "EASY",
+    "created_at": "2025-10-28T17:39:58.858515",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858515",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_8c2864f9019a467d",
+    "recto": "What is Big O notation?",
+    "verso": "A mathematical notation used to describe the worst-case time complexity or space complexity of an algorithm",
+    "difficulty": "HARD",
+    "created_at": "2025-10-28T17:39:58.858518",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858518",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_82ca5758775a46f7",
+    "recto": "What is a REST API?",
+    "verso": "Representational State Transfer - an architectural style for designing networked applications using stateless HTTP requests",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858522",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858522",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_d13b8307de0b441c",
+    "recto": "What does 'Bonjour' mean in French?",
+    "verso": "Hello / Good morning / Good day",
+    "difficulty": "EASY",
+    "created_at": "2025-10-28T17:39:58.858525",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858525",
+    "review_count": 0
+  },
+  {
+    "card_id": "card_de194357302044e8",
+    "recto": "What is a palindrome?",
+    "verso": "A word, phrase, or sequence that reads the same backward as forward (e.g., 'racecar', 'madam')",
+    "difficulty": "MEDIUM",
+    "created_at": "2025-10-28T17:39:58.858528",
+    "last_reviewed": null,
+    "next_review": "2025-10-28T17:39:58.858528",
+    "review_count": 0
+  }
+]
