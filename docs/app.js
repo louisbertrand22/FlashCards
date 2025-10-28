@@ -127,6 +127,52 @@ class FlashcardManager {
             progress
         };
     }
+
+    exportToJSON() {
+        /**
+         * Export flashcards to a JSON file for download
+         */
+        const dataStr = JSON.stringify(this.cards, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `flashcards-export-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
+    importFromJSON(jsonData) {
+        /**
+         * Import flashcards from JSON data
+         * @param {string|object} jsonData - JSON string or parsed object
+         * @returns {object} Result with success status and message
+         */
+        try {
+            const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+            
+            if (!Array.isArray(data)) {
+                return { success: false, message: 'Invalid format: Expected an array of flashcards' };
+            }
+
+            // Validate each card has required fields
+            for (const card of data) {
+                if (!card.front || !card.back || !card.difficulty) {
+                    return { success: false, message: 'Invalid format: Cards must have front, back, and difficulty' };
+                }
+            }
+
+            // Replace current cards with imported ones
+            this.cards = data;
+            this.saveCards();
+            
+            return { success: true, message: `Successfully imported ${data.length} flashcard(s)` };
+        } catch (error) {
+            return { success: false, message: `Import failed: ${error.message}` };
+        }
+    }
 }
 
 // Global manager instance
@@ -516,6 +562,50 @@ function formatDate(dateString) {
             day: 'numeric' 
         });
     }
+}
+
+// Import/Export functions
+function exportFlashcards() {
+    try {
+        manager.exportToJSON();
+        showAlert('Flashcards exported successfully!', 'success');
+    } catch (error) {
+        showAlert('Export failed: ' + error.message, 'danger');
+    }
+}
+
+function triggerImportFile() {
+    document.getElementById('import-file-input').click();
+}
+
+function handleImportFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const result = manager.importFromJSON(e.target.result);
+            if (result.success) {
+                showAlert(result.message, 'success');
+                // Refresh current view
+                const currentView = document.querySelector('.view:not(.hidden)').id;
+                if (currentView === 'dashboard-view') {
+                    loadDashboard();
+                } else if (currentView === 'all-cards-view') {
+                    loadAllCards();
+                }
+            } else {
+                showAlert(result.message, 'danger');
+            }
+        } catch (error) {
+            showAlert('Import failed: ' + error.message, 'danger');
+        }
+    };
+    reader.readAsText(file);
+    
+    // Reset file input so the same file can be selected again
+    event.target.value = '';
 }
 
 // Initialize on page load
