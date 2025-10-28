@@ -9,6 +9,10 @@ from flashcard import Flashcard, DifficultyLevel
 class FlashcardManager:
     """Manages a collection of flashcards with persistence."""
     
+    # Default filenames for storage and sample data
+    DEFAULT_STORAGE_FILE = 'flashcards.json'
+    SAMPLE_DATA_FILE = 'sample_flashcards.json'
+    
     def __init__(self, storage_file='flashcards.json'):
         """
         Initialize the flashcard manager.
@@ -109,11 +113,11 @@ class FlashcardManager:
             # Try to load sample data if this is the default storage file
             # and sample data exists (for initial deployment)
             storage_basename = os.path.basename(self.storage_file)
-            if storage_basename == 'flashcards.json':
-                sample_file = 'sample_flashcards.json'
+            if storage_basename == self.DEFAULT_STORAGE_FILE:
+                sample_file = self.SAMPLE_DATA_FILE
                 storage_dir = os.path.dirname(self.storage_file)
                 if storage_dir:
-                    sample_file = os.path.join(storage_dir, 'sample_flashcards.json')
+                    sample_file = os.path.join(storage_dir, self.SAMPLE_DATA_FILE)
                 
                 if os.path.exists(sample_file):
                     try:
