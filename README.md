@@ -19,7 +19,9 @@ A Python-based flashcard application for creating and studying flashcards with d
 - **Smart Scheduling**: Flashcards are automatically scheduled for review based on their difficulty level
 - **Study Mode**: Review flashcards that are due for study with interactive progress tracking
 - **Statistics**: View colorful statistics about your flashcard collection
-- **Persistence**: Flashcards are automatically saved to a JSON file
+- **Persistence**: 
+  - Static web app: Browser localStorage with JSON import/export for backup
+  - Python/Flask app: Automatic JSON file persistence
 - **Import/Export**: 
   - Export your flashcards to a JSON file for backup
   - Import flashcards from JSON files to restore or transfer data
