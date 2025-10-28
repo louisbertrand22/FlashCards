@@ -19,7 +19,13 @@ A Python-based flashcard application for creating and studying flashcards with d
 - **Smart Scheduling**: Flashcards are automatically scheduled for review based on their difficulty level
 - **Study Mode**: Review flashcards that are due for study with interactive progress tracking
 - **Statistics**: View colorful statistics about your flashcard collection
-- **Persistence**: Flashcards are automatically saved to a JSON file
+- **Persistence**: 
+  - Static web app: Browser localStorage with JSON import/export for backup
+  - Python/Flask app: Automatic JSON file persistence
+- **Import/Export**: 
+  - Export your flashcards to a JSON file for backup
+  - Import flashcards from JSON files to restore or transfer data
+  - Easy data portability between devices and browsers
 - **Enhanced UI/UX**: 
   - Color-coded difficulty badges (🟢 Easy, 🟡 Medium, 🔴 Hard)
   - Visual progress bars during study sessions
@@ -41,12 +47,13 @@ A Python-based flashcard application for creating and studying flashcards with d
 
 ### Option 1: Use the Online Version (Recommended for Quick Start)
 
-Simply visit **[https://louisbertrand22.github.io/FlashCards/](https://louisbertrand22.github.io/FlashCards/)** in your web browser. Your flashcards are stored locally in your browser using localStorage, so they persist between sessions.
+Simply visit **[https://louisbertrand22.github.io/FlashCards/](https://louisbertrand22.github.io/FlashCards/)** in your web browser. Your flashcards are stored locally in your browser using localStorage, so they persist between sessions. You can also export your data to JSON files for backup and import them later.
 
 **Benefits:**
 - No installation required
 - Works offline once loaded
 - Data stays private in your browser
+- Export/import JSON files for backup and portability
 - Same features as the Flask version
 
 ### Option 2: Standard Installation
@@ -141,6 +148,8 @@ python main.py
 5. View your cards on the "All Cards" page
 6. Click "Study" when cards are due for review
 7. The app will automatically schedule the next review based on difficulty
+8. Use "Data" → "Export to JSON" to backup your flashcards
+9. Use "Data" → "Import from JSON" to restore flashcards from a backup
 
 **CLI:**
 1. Start the application: `python main.py`
@@ -150,6 +159,29 @@ python main.py
 5. Select difficulty level (1 for Easy, 2 for Medium, 3 for Hard)
 6. Use option 3 to study flashcards when they're due for review
 7. The app will automatically schedule the next review based on difficulty
+
+### Import/Export Feature (Web Interface Only)
+
+The static web app includes an import/export feature that allows you to backup and restore your flashcards:
+
+**Exporting Flashcards:**
+1. Click on the "💾 Data" menu in the navigation bar
+2. Select "📤 Export to JSON"
+3. A JSON file will be downloaded with your current flashcards
+4. The file is named with the current date (e.g., `flashcards-export-2025-10-28.json`)
+
+**Importing Flashcards:**
+1. Click on the "💾 Data" menu in the navigation bar
+2. Select "📥 Import from JSON"
+3. Choose a previously exported JSON file
+4. Your flashcards will be restored from the file
+5. Note: Importing will replace your current flashcards with the ones from the file
+
+**Use Cases:**
+- **Backup**: Export your flashcards regularly to avoid data loss
+- **Transfer**: Move flashcards between different browsers or devices
+- **Share**: Share flashcard sets with others
+- **Version Control**: Keep multiple versions of your flashcard collection
 
 ## File Structure
 

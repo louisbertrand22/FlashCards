@@ -30,6 +30,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="showView('study')">🎯 Study</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dataMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            💾 Data
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dataMenuDropdown">
+                            <li><a class="dropdown-item" href="#" onclick="exportFlashcards()">📤 Export to JSON</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="triggerImportFile()">📥 Import from JSON</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -222,6 +231,9 @@
                 </div>
             </div>
         </div>
+
+        <!-- Hidden file input for import -->
+        <input type="file" id="import-file-input" accept="application/json,.json" style="display: none;" onchange="handleImportFile(event)">
     </div>
 
     <footer class="footer mt-5 py-3 bg-light">
