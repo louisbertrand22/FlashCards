@@ -13,14 +13,15 @@ class FlashcardManager:
     DEFAULT_STORAGE_FILE = 'flashcards.json'
     SAMPLE_DATA_FILE = 'sample_flashcards.json'
     
-    def __init__(self, storage_file='flashcards.json'):
+    def __init__(self, storage_file=None):
         """
         Initialize the flashcard manager.
         
         Args:
-            storage_file (str): Path to the JSON file for storing flashcards
+            storage_file (str): Path to the JSON file for storing flashcards.
+                                Defaults to DEFAULT_STORAGE_FILE if not provided.
         """
-        self.storage_file = storage_file
+        self.storage_file = storage_file if storage_file is not None else self.DEFAULT_STORAGE_FILE
         self.flashcards = []
         self.load_flashcards()
     
