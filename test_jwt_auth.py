@@ -338,6 +338,67 @@ def test_api_integration():
         return False
 
 
+def test_legacy_card_access():
+    """Test that legacy cards (without user_id) are accessible by authenticated users."""
+    print("Test 7: Testing legacy card access...")
+    
+    try:
+        from app import app
+        from api import manager as api_manager  # Use the same manager instance as the API
+        from flashcard import DifficultyLevel
+        
+        # Set up Flask test client
+        app.config['TESTING'] = True
+        client = app.test_client()
+        
+        # Create a legacy card (without user_id) using the API's manager
+        legacy_card = api_manager.add_flashcard("Legacy Q", "Legacy A", DifficultyLevel.MEDIUM)
+        legacy_card_id = legacy_card.card_id
+        
+        # Verify it has no user_id
+        assert legacy_card.user_id is None
+        print("  ✓ Legacy card created without user_id")
+        
+        # Register and login a user
+        client.post('/api/auth/register', json={'username': 'testuser2', 'password': 'password123'})
+        response = client.post('/api/auth/login', json={'username': 'testuser2', 'password': 'password123'})
+        access_token = json.loads(response.data)['access_token']
+        headers = {'Authorization': f'Bearer {access_token}'}
+        
+        # Try to access the legacy card
+        response = client.get(f'/api/cards/{legacy_card_id}', headers=headers)
+        assert response.status_code == 200
+        print("  ✓ Authenticated user can access legacy card")
+        
+        # Try to update the legacy card
+        response = client.put(f'/api/cards/{legacy_card_id}',
+                             json={'difficulty': 'HARD'},
+                             headers=headers)
+        assert response.status_code == 200
+        print("  ✓ Authenticated user can update legacy card")
+        
+        # Try to review the legacy card
+        response = client.post(f'/api/cards/{legacy_card_id}/review',
+                              json={'success': True},
+                              headers=headers)
+        assert response.status_code == 200
+        print("  ✓ Authenticated user can review legacy card")
+        
+        # Try to delete the legacy card
+        response = client.delete(f'/api/cards/{legacy_card_id}', headers=headers)
+        assert response.status_code == 200
+        print("  ✓ Authenticated user can delete legacy card")
+        
+        print("✓ Test 7 passed!\n")
+        return True
+        
+    except Exception as e:
+        import traceback
+        print(f"  ✗ Legacy card access test failed: {e}")
+        traceback.print_exc()
+        return False
+
+
 def run_all_tests():
     """Run all JWT authentication tests."""
     print("=" * 60)
@@ -351,7 +412,8 @@ def run_all_tests():
         test_user_manager,
         test_flashcard_user_association,
         test_due_cards_user_filter,
-        test_api_integration
+        test_api_integration,
+        test_legacy_card_access
     ]
     
     passed = 0

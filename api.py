@@ -107,8 +107,8 @@ def get_card(card_id):
     if not card:
         return jsonify({'error': 'Card not found'}), 404
     
-    # Verify ownership
-    if card.user_id != current_user_id:
+    # Verify ownership (None user_id means legacy card, accessible by all authenticated users)
+    if card.user_id is not None and card.user_id != current_user_id:
         return jsonify({'error': 'Unauthorized access to this card'}), 403
     
     return jsonify({'card': card.to_dict()}), 200
@@ -134,8 +134,8 @@ def update_card(card_id):
     if not card:
         return jsonify({'error': 'Card not found'}), 404
     
-    # Verify ownership
-    if card.user_id != current_user_id:
+    # Verify ownership (None user_id means legacy card, accessible by all authenticated users)
+    if card.user_id is not None and card.user_id != current_user_id:
         return jsonify({'error': 'Unauthorized access to this card'}), 403
     
     data = request.get_json()
@@ -174,8 +174,8 @@ def delete_card(card_id):
     if not card:
         return jsonify({'error': 'Card not found'}), 404
     
-    # Verify ownership
-    if card.user_id != current_user_id:
+    # Verify ownership (None user_id means legacy card, accessible by all authenticated users)
+    if card.user_id is not None and card.user_id != current_user_id:
         return jsonify({'error': 'Unauthorized access to this card'}), 403
     
     manager.remove_flashcard(card_id)
@@ -203,8 +203,8 @@ def review_card(card_id):
     if not card:
         return jsonify({'error': 'Card not found'}), 404
     
-    # Verify ownership
-    if card.user_id != current_user_id:
+    # Verify ownership (None user_id means legacy card, accessible by all authenticated users)
+    if card.user_id is not None and card.user_id != current_user_id:
         return jsonify({'error': 'Unauthorized access to this card'}), 403
     
     data = request.get_json() or {}
