@@ -29,7 +29,7 @@ class UserManager:
                 data = json.load(f)
                 return {username: User.from_dict(user_data) 
                         for username, user_data in data.items()}
-        except (json.JSONDecodeError, IOError):
+        except json.JSONDecodeError:
             return {}
         except PermissionError:
             print(f"Error: Permission denied when trying to read from {self.storage_file}")
@@ -50,7 +50,7 @@ class UserManager:
         except PermissionError:
             print(f"Error: Permission denied when trying to write to {self.storage_file}")
             print("Please check file permissions or choose a different location.")
-        except (OSError, IOError) as e:
+        except OSError as e:
             print(f"Error: Could not save users to {self.storage_file}: {e}")
             print("Please check that the directory exists and is writable.")
     

@@ -155,7 +155,7 @@ class FlashcardManager:
         except PermissionError:
             print(f"Error: Permission denied when trying to write to {self.storage_file}")
             print("Please check file permissions or choose a different location.")
-        except (OSError, IOError) as e:
+        except OSError as e:
             print(f"Error: Could not save flashcards to {self.storage_file}: {e}")
             print("Please check that the directory exists and is writable.")
     
@@ -173,7 +173,7 @@ class FlashcardManager:
                 print(f"Error: Permission denied when trying to read from {self.storage_file}")
                 print("Please check file permissions.")
                 self.flashcards = []
-            except (OSError, IOError) as e:
+            except OSError as e:
                 print(f"Error: Could not load flashcards from {self.storage_file}: {e}")
                 self.flashcards = []
         else:
@@ -200,7 +200,7 @@ class FlashcardManager:
                     except PermissionError:
                         print(f"Error: Permission denied when trying to read from {sample_file}")
                         self.flashcards = []
-                    except (OSError, IOError) as e:
+                    except OSError as e:
                         print(f"Error: Could not load sample flashcards from {sample_file}: {e}")
                         self.flashcards = []
                 else:
