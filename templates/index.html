@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - FlashCards{% endblock %}
+{% block title %}{{ _('Dashboard') }} - {{ _('FlashCards') }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1 class="mb-4">📊 Dashboard</h1>
+        <h1 class="mb-4">📊 {{ _('Dashboard') }}</h1>
     </div>
 </div>
 
@@ -13,7 +13,7 @@
     <div class="col-md-3 mb-4">
         <div class="card text-center stat-card">
             <div class="card-body">
-                <h5 class="card-title text-muted">Total Cards</h5>
+                <h5 class="card-title text-muted">{{ _('Total Cards') }}</h5>
                 <h2 class="display-4 text-primary">{{ stats.total_cards }}</h2>
             </div>
         </div>
@@ -21,7 +21,7 @@
     <div class="col-md-3 mb-4">
         <div class="card text-center stat-card">
             <div class="card-body">
-                <h5 class="card-title text-muted">Due for Review</h5>
+                <h5 class="card-title text-muted">{{ _('Due for Review') }}</h5>
                 <h2 class="display-4 text-warning">{{ stats.due_for_review }}</h2>
             </div>
         </div>
@@ -29,7 +29,7 @@
     <div class="col-md-3 mb-4">
         <div class="card text-center stat-card">
             <div class="card-body">
-                <h5 class="card-title text-muted">Total Reviews</h5>
+                <h5 class="card-title text-muted">{{ _('Total Reviews') }}</h5>
                 <h2 class="display-4 text-success">{{ stats.total_reviews }}</h2>
             </div>
         </div>
@@ -37,7 +37,7 @@
     <div class="col-md-3 mb-4">
         <div class="card text-center stat-card">
             <div class="card-body">
-                <h5 class="card-title text-muted">Study Progress</h5>
+                <h5 class="card-title text-muted">{{ _('Study Progress') }}</h5>
                 <h2 class="display-4 text-info">
                     {% if stats.total_cards > 0 %}
                         {{ ((stats.total_cards - stats.due_for_review) / stats.total_cards * 100) | round | int }}%
@@ -54,20 +54,20 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">📈 Cards by Difficulty</h5>
+                <h5 class="mb-0">📈 {{ _('Cards by Difficulty') }}</h5>
             </div>
             <div class="card-body">
                 <div class="difficulty-stats">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span>🟢 Easy</span>
+                        <span>🟢 {{ _('Easy') }}</span>
                         <span class="badge bg-success">{{ stats.easy_cards }}</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span>🟡 Medium</span>
+                        <span>🟡 {{ _('Medium') }}</span>
                         <span class="badge bg-warning">{{ stats.medium_cards }}</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>🔴 Hard</span>
+                        <span>🔴 {{ _('Hard') }}</span>
                         <span class="badge bg-danger">{{ stats.hard_cards }}</span>
                     </div>
                 </div>
@@ -78,20 +78,20 @@
         {% if stats.total_reviews > 0 %}
         <div class="card">
             <div class="card-header bg-success text-white">
-                <h5 class="mb-0">🎖️ Review Performance</h5>
+                <h5 class="mb-0">🎖️ {{ _('Review Performance') }}</h5>
             </div>
             <div class="card-body">
                 <div class="performance-stats">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span>Success Rate</span>
+                        <span>{{ _('Success Rate') }}</span>
                         <span class="badge bg-primary">{{ stats.overall_success_rate }}%</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span>Best Streak</span>
+                        <span>{{ _('Best Streak') }}</span>
                         <span class="badge bg-warning">🔥 {{ stats.best_streak }}</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>Active Streaks</span>
+                        <span>{{ _('Active Streaks') }}</span>
                         <span class="badge bg-success">{{ stats.cards_with_streaks }}</span>
                     </div>
                 </div>
@@ -100,10 +100,10 @@
         {% else %}
         <div class="card">
             <div class="card-header bg-info text-white">
-                <h5 class="mb-0">💡 Getting Started</h5>
+                <h5 class="mb-0">💡 {{ _('Getting Started') }}</h5>
             </div>
             <div class="card-body">
-                <p class="mb-0">Start reviewing cards to track your progress and build streaks! Your success rate and streaks will appear here.</p>
+                <p class="mb-0">{{ _('Start reviewing cards to track your progress and build streaks! Your success rate and streaks will appear here.') }}</p>
             </div>
         </div>
         {% endif %}
@@ -111,24 +111,24 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">🎯 Quick Actions</h5>
+                <h5 class="mb-0">🎯 {{ _('Quick Actions') }}</h5>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
                     {% if stats.due_for_review > 0 %}
                         <a href="{{ url_for('study') }}" class="btn btn-warning btn-lg">
-                            🎯 Study Now ({{ stats.due_for_review }} cards due)
+                            🎯 {{ _('Study Now (%(count)s cards due)', count=stats.due_for_review) }}
                         </a>
                     {% else %}
                         <button class="btn btn-success btn-lg" disabled>
-                            ✅ All caught up!
+                            ✅ {{ _('All caught up!') }}
                         </button>
                     {% endif %}
                     <a href="{{ url_for('create_card') }}" class="btn btn-primary btn-lg">
-                        📝 Create New Card
+                        📝 {{ _('Create New Card') }}
                     </a>
                     <a href="{{ url_for('view_cards') }}" class="btn btn-secondary btn-lg">
-                        📚 View All Cards
+                        📚 {{ _('View All Cards') }}
                     </a>
                 </div>
             </div>
@@ -140,8 +140,8 @@
 <div class="row mt-4">
     <div class="col-md-12">
         <div class="alert alert-info text-center">
-            <h4>👋 Welcome to FlashCards!</h4>
-            <p class="mb-0">You don't have any flashcards yet. <a href="{{ url_for('create_card') }}" class="alert-link">Create your first card</a> to get started!</p>
+            <h4>👋 {{ _('Welcome to FlashCards!') }}</h4>
+            <p class="mb-0">{{ _('You don\'t have any flashcards yet.') }} <a href="{{ url_for('create_card') }}" class="alert-link">{{ _('Create your first card') }}</a> {{ _('to get started!') }}</p>
         </div>
     </div>
 </div>

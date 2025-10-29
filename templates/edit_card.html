@@ -1,46 +1,46 @@
 {% extends "base.html" %}
 
-{% block title %}Edit Card - FlashCards{% endblock %}
+{% block title %}{{ _('Edit Card') }} - {{ _('FlashCards') }}{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">⚙️ Edit Flashcard Difficulty</h4>
+                <h4 class="mb-0">⚙️ {{ _('Edit Flashcard Difficulty') }}</h4>
             </div>
             <div class="card-body">
                 <div class="alert alert-info">
-                    <h5 class="alert-heading">Card Preview</h5>
-                    <p><strong>Front:</strong> {{ card.recto }}</p>
-                    <p class="mb-0"><strong>Back:</strong> {{ card.verso }}</p>
+                    <h5 class="alert-heading">{{ _('Card Preview') }}</h5>
+                    <p><strong>{{ _('Front:') }}</strong> {{ card.recto }}</p>
+                    <p class="mb-0"><strong>{{ _('Back:') }}</strong> {{ card.verso }}</p>
                 </div>
 
                 <form method="POST" action="{{ url_for('edit_card', card_id=card.card_id) }}">
                     <div class="mb-3">
                         <label for="difficulty" class="form-label">
-                            Current Difficulty: 
+                            {{ _('Current Difficulty:') }} 
                             <span class="badge bg-{{ card.difficulty.name|difficulty_color }}">
-                                {{ card.difficulty.name|difficulty_emoji }} {{ card.difficulty.name }}
+                                {{ card.difficulty.name|difficulty_emoji }} {{ _(card.difficulty.name) }}
                             </span>
                         </label>
                         <select class="form-select" id="difficulty" name="difficulty">
                             <option value="EASY" {% if card.difficulty.name == 'EASY' %}selected{% endif %}>
-                                🟢 Easy (review every 7 days)
+                                🟢 {{ _('Easy (review every 7 days)') }}
                             </option>
                             <option value="MEDIUM" {% if card.difficulty.name == 'MEDIUM' %}selected{% endif %}>
-                                🟡 Medium (review every 3 days)
+                                🟡 {{ _('Medium (review every 3 days)') }}
                             </option>
                             <option value="HARD" {% if card.difficulty.name == 'HARD' %}selected{% endif %}>
-                                🔴 Hard (review every 1 day)
+                                🔴 {{ _('Hard (review every 1 day)') }}
                             </option>
                         </select>
-                        <div class="form-text">Changing difficulty will reschedule the next review.</div>
+                        <div class="form-text">{{ _('Changing difficulty will reschedule the next review.') }}</div>
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{{ url_for('view_cards') }}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Update Difficulty</button>
+                        <a href="{{ url_for('view_cards') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        <button type="submit" class="btn btn-primary">{{ _('Update Difficulty') }}</button>
                     </div>
                 </form>
             </div>
