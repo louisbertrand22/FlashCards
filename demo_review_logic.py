@@ -114,9 +114,10 @@ def demo_adaptive_intervals():
     print(f"Base interval for MEDIUM: {card1.difficulty.get_review_interval()} days")
     
     card1.mark_reviewed(success=False)
-    days_until_review = (card1.next_review - datetime.now()).days
+    time_diff = card1.next_review - datetime.now()
+    days_until_review = max(0, round(time_diff.total_seconds() / 86400, 1))
     print(f"\n❌ Failed review")
-    print(f"Next review in: ~{days_until_review} days")
+    print(f"Next review in: {days_until_review} days")
     print(f"✅ Interval reduced! Failed reviews schedule sooner practice.")
     
     # Test success streak
@@ -130,8 +131,9 @@ def demo_adaptive_intervals():
         card2.mark_reviewed(success=True)
         print(f"Review {i+1}: Success! Streak: {card2.success_streak}")
     
-    days_until_review = (card2.next_review - datetime.now()).days
-    print(f"\nNext review in: ~{days_until_review} days")
+    time_diff = card2.next_review - datetime.now()
+    days_until_review = max(0, round(time_diff.total_seconds() / 86400, 1))
+    print(f"\nNext review in: {days_until_review} days")
     print(f"✅ Interval extended! Success streaks earn bonus time before next review.")
 
 
