@@ -99,12 +99,22 @@ class FlashcardManager {
         return false;
     }
 
-    getDueCards() {
+    getDueCards(shuffle = false) {
         const now = new Date();
-        return this.cards.filter(card => {
+        const dueCards = this.cards.filter(card => {
             const nextReview = new Date(card.nextReview);
             return nextReview <= now;
         });
+        
+        if (shuffle) {
+            // Fisher-Yates shuffle algorithm
+            for (let i = dueCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [dueCards[i], dueCards[j]] = [dueCards[j], dueCards[i]];
+            }
+        }
+        
+        return dueCards;
     }
 
     getStatistics() {
@@ -382,7 +392,7 @@ let studyCards = [];
 let isAnswerRevealed = false;
 
 function loadStudyMode() {
-    studyCards = manager.getDueCards();
+    studyCards = manager.getDueCards(true); // Enable shuffle
     currentStudyIndex = 0;
     isAnswerRevealed = false;
 
@@ -435,6 +445,9 @@ function showStudyCard() {
     document.getElementById('study-container').innerHTML = `
         <div class="row">
             <div class="col-md-8 offset-md-2">
+                <div class="alert alert-info text-center mb-4">
+                    🔀 Cards are presented in random order
+                </div>
                 <div class="mb-3">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <span>Progress: ${currentStudyIndex + 1} / ${studyCards.length}</span>

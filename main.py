@@ -93,13 +93,14 @@ class FlashcardCLI:
     
     def study_flashcards(self):
         """Review flashcards that are due."""
-        due_cards = self.manager.get_due_flashcards()
+        due_cards = self.manager.get_due_flashcards(shuffle=True)
         
         if not due_cards:
             print(ui.success("No flashcards due for review right now!"))
             return
         
         print(ui.subheader(f"Study Session ({len(due_cards)} cards due)", 60))
+        print(ui.info("📝 Cards will be presented in random order"))
         
         for i, card in enumerate(due_cards, 1):
             # Show progress

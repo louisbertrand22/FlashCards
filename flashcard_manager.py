@@ -3,6 +3,7 @@ FlashcardManager class for managing a collection of flashcards.
 """
 import json
 import os
+import random
 from flashcard import Flashcard, DifficultyLevel
 
 
@@ -79,9 +80,20 @@ class FlashcardManager:
         """Get all flashcards."""
         return self.flashcards
     
-    def get_due_flashcards(self):
-        """Get all flashcards that are due for review."""
-        return [card for card in self.flashcards if card.is_due_for_review()]
+    def get_due_flashcards(self, shuffle=False):
+        """
+        Get all flashcards that are due for review.
+        
+        Args:
+            shuffle (bool): If True, return cards in random order
+            
+        Returns:
+            list: List of due flashcards
+        """
+        due_cards = [card for card in self.flashcards if card.is_due_for_review()]
+        if shuffle:
+            random.shuffle(due_cards)
+        return due_cards
     
     def get_flashcards_by_difficulty(self, difficulty):
         """
