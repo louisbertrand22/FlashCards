@@ -230,6 +230,63 @@ def test_category_functionality():
     return True
 
 
+def test_shuffle_functionality():
+    """Test shuffle functionality for due cards."""
+    print("Test 7: Testing shuffle functionality...")
+    
+    # Use a test file
+    test_file = 'test_flashcards_shuffle.json'
+    
+    # Clean up if exists
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    # Create manager with multiple cards
+    manager = FlashcardManager(test_file)
+    
+    # Add 10 cards that are all due for review
+    card_ids = []
+    for i in range(10):
+        card = manager.add_flashcard(f"Question {i}", f"Answer {i}", DifficultyLevel.EASY)
+        card_ids.append(card.card_id)
+    
+    # Get due cards multiple times without shuffle - should be same order
+    due_cards_1 = manager.get_due_flashcards(shuffle=False)
+    due_cards_2 = manager.get_due_flashcards(shuffle=False)
+    
+    order_1 = [card.card_id for card in due_cards_1]
+    order_2 = [card.card_id for card in due_cards_2]
+    
+    assert order_1 == order_2
+    print("  ✓ Non-shuffled cards maintain order")
+    
+    # Get due cards with shuffle multiple times
+    # With 10 cards, the probability of getting the same order is 1/10! which is extremely low
+    shuffled_orders = []
+    for _ in range(5):
+        shuffled_cards = manager.get_due_flashcards(shuffle=True)
+        shuffled_order = [card.card_id for card in shuffled_cards]
+        shuffled_orders.append(shuffled_order)
+    
+    # Check that at least one shuffle produced a different order
+    # (very unlikely all 5 would be the same with 10 cards)
+    unique_orders = len(set(tuple(order) for order in shuffled_orders))
+    assert unique_orders > 1
+    print(f"  ✓ Shuffle produces different orders ({unique_orders} unique orders in 5 attempts)")
+    
+    # Verify all shuffled results contain the same cards (just in different order)
+    for shuffled_order in shuffled_orders:
+        assert set(shuffled_order) == set(card_ids)
+    print("  ✓ Shuffled results contain all cards")
+    
+    # Clean up
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    print("✓ Test 7 passed!\n")
+    return True
+
+
 def run_all_tests():
     """Run all tests."""
     print("=" * 60)
@@ -243,7 +300,8 @@ def run_all_tests():
         test_flashcard_review,
         test_flashcard_manager,
         test_serialization,
-        test_category_functionality
+        test_category_functionality,
+        test_shuffle_functionality
     ]
     
     passed = 0

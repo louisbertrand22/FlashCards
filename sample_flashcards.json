@@ -2,12 +2,13 @@
   {
     "card_id": "card_a5cf17842fce4e92",
     "recto": "Victor HUGO",
-    "verso": "Les Mis\u00e9rables",
+    "verso": "Les Misérables",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:19:54.101990",
     "next_review": "2025-11-03T22:19:54.101990",
-    "review_count": 1
+    "review_count": 1,
+    "category": "French Literature"
   },
   {
     "card_id": "card_704a0ab23425413a",
@@ -17,7 +18,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:20:03.544929",
     "next_review": "2025-10-30T22:20:03.544929",
-    "review_count": 1
+    "review_count": 1,
+    "category": "French Literature"
   },
   {
     "card_id": "card_05900b9716c3469f",
@@ -27,27 +29,30 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:20:09.080443",
     "next_review": "2025-10-30T22:20:09.080443",
-    "review_count": 1
+    "review_count": 1,
+    "category": "French Literature"
   },
   {
     "card_id": "card_a1b2c3d4e5f67g8h",
-    "recto": "Le P\u00e8re Goriot",
-    "verso": "Honor\u00e9 de BALZAC",
+    "recto": "Le Père Goriot",
+    "verso": "Honoré de BALZAC",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_b2c3d4e5f6g7h8i9",
     "recto": "Germinal",
-    "verso": "\u00c9mile ZOLA",
+    "verso": "Émile ZOLA",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_c3d4e5f6g7h8i9j0",
@@ -57,17 +62,19 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:20:26.905117",
     "next_review": "2025-10-30T22:20:26.905117",
-    "review_count": 1
+    "review_count": 1,
+    "category": "French Literature"
   },
   {
     "card_id": "card_d4e5f6g7h8i9j0k1",
-    "recto": "L'\u00c9tranger",
+    "recto": "L'Étranger",
     "verso": "Albert CAMUS",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:20:30.329176",
     "next_review": "2025-11-03T22:20:30.329176",
-    "review_count": 1
+    "review_count": 1,
+    "category": "French Literature"
   },
   {
     "card_id": "card_e5f6g7h8i9j0k1l2",
@@ -77,37 +84,41 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_f6g7h8i9j0k1l2m3",
     "recto": "Le Petit Prince",
-    "verso": "Antoine de Saint-Exup\u00e9ry",
+    "verso": "Antoine de Saint-Exupéry",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_g7h8i9j0k1l2m3n4",
-    "recto": "\u00c0 la recherche du temps perdu",
+    "recto": "À la recherche du temps perdu",
     "verso": "Marcel PROUST",
     "difficulty": "HARD",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_h8i9j0k1l2m3n4o5",
-    "recto": "Le Malade imaginaire (Th\u00e9\u00e2tre)",
-    "verso": "MOLI\u00c8RE",
+    "recto": "Le Malade imaginaire (Théâtre)",
+    "verso": "MOLIÈRE",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:20:56.891257",
     "next_review": "2025-10-30T22:20:56.891257",
-    "review_count": 1
+    "review_count": 1,
+    "category": "French Literature"
   },
   {
     "card_id": "card_i9j0k1l2m3n4o5p6",
@@ -117,7 +128,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_j0k1l2m3n4o5p6q7",
@@ -127,17 +139,19 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_k1l2m3n4o5p6q7r8",
     "recto": "Les Faux-Monnayeurs",
-    "verso": "Andr\u00e9 GIDE",
+    "verso": "André GIDE",
     "difficulty": "HARD",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_l2m3n4o5p6q7r8s9",
@@ -147,7 +161,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_m3n4o5p6q7r8s9t0",
@@ -157,17 +172,19 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "French Literature"
   },
   {
     "card_id": "card_n4o5p6q7r8s9t0u1",
-    "recto": "Th\u00e9orie de la relativit\u00e9",
+    "recto": "Théorie de la relativité",
     "verso": "Albert EINSTEIN",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:21:25.067591",
     "next_review": "2025-11-03T22:21:25.067591",
-    "review_count": 1
+    "review_count": 1,
+    "category": "Science"
   },
   {
     "card_id": "card_o5p6q7r8s9t0u1v2",
@@ -177,87 +194,96 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:21:30.576119",
     "next_review": "2025-11-03T22:21:30.576119",
-    "review_count": 1
+    "review_count": 1,
+    "category": "Science"
   },
   {
     "card_id": "card_p6q7r8s9t0u1v2w3",
-    "recto": "D\u00e9couverte du vaccin (variole)",
+    "recto": "Découverte du vaccin (variole)",
     "verso": "Louis PASTEUR",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_q7r8s9t0u1v2w3x4",
-    "recto": "Tableau p\u00e9riodique des \u00e9l\u00e9ments",
-    "verso": "Dmitri MENDELE\u00cfEV",
+    "recto": "Tableau périodique des éléments",
+    "verso": "Dmitri MENDELEÏEV",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_r8s9t0u1v2w3x4y5",
-    "recto": "D\u00e9couverte de la P\u00e9nicilline",
+    "recto": "Découverte de la Pénicilline",
     "verso": "Alexander FLEMING",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_s9t0u1v2w3x4y5z6",
-    "recto": "Th\u00e9orie de l'\u00e9volution par s\u00e9lection naturelle",
+    "recto": "Théorie de l'évolution par sélection naturelle",
     "verso": "Charles DARWIN",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_t0u1v2w3x4y5z6a7",
-    "recto": "Physicien qui a donn\u00e9 son nom \u00e0 la Radioactivit\u00e9",
+    "recto": "Physicien qui a donné son nom à la Radioactivité",
     "verso": "Marie CURIE",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_u1v2w3x4y5z6a7b8",
     "recto": "Formulation du Big Bang",
-    "verso": "Georges LEMA\u00ceTRE",
+    "verso": "Georges LEMAÎTRE",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_v2w3x4y5z6a7b8c9",
-    "recto": "P\u00e8re de l'informatique (Machine de Turing)",
+    "recto": "Père de l'informatique (Machine de Turing)",
     "verso": "Alan TURING",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_w3x4y5z6a7b8c9d0",
-    "recto": "Lois du mouvement des plan\u00e8tes",
+    "recto": "Lois du mouvement des planètes",
     "verso": "Johannes KEPLER",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_x4y5z6a7b8c9d0e1",
@@ -267,47 +293,52 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:22:31.360896",
     "next_review": "2025-10-28T22:22:31.360896",
-    "review_count": 1
+    "review_count": 1,
+    "category": "Science"
   },
   {
     "card_id": "card_y5z6a7b8c9d0e1f2",
-    "recto": "Th\u00e9orie du champ \u00e9lectromagn\u00e9tique",
+    "recto": "Théorie du champ électromagnétique",
     "verso": "James Clerk MAXWELL",
     "difficulty": "HARD",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_z6a7b8c9d0e1f2g3",
-    "recto": "D\u00e9couverte des rayons X",
-    "verso": "Wilhelm Conrad R\u00d6NTGEN",
+    "recto": "Découverte des rayons X",
+    "verso": "Wilhelm Conrad RÖNTGEN",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_a7b8c9d0e1f2g3h4",
-    "recto": "D\u00e9couverte de la double h\u00e9lice de l'ADN",
+    "recto": "Découverte de la double hélice de l'ADN",
     "verso": "James WATSON et Francis CRICK",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_b8c9d0e1f2g3h4i5",
-    "recto": "Conception de la premi\u00e8re machine \u00e0 vapeur",
+    "recto": "Conception de la première machine à vapeur",
     "verso": "James WATT",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Science"
   },
   {
     "card_id": "card_c9d0e1f2g3h4i5j6",
@@ -317,7 +348,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:22:57.447360",
     "next_review": "2025-11-03T22:22:57.447360",
-    "review_count": 1
+    "review_count": 1,
+    "category": "Music"
   },
   {
     "card_id": "card_d0e1f2g3h4i5j6k7",
@@ -327,17 +359,19 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_e1f2g3h4i5j6k7l8",
-    "recto": "Artiste f\u00e9minine avec le plus de Grammy Awards",
-    "verso": "Beyonc\u00e9",
+    "recto": "Artiste féminine avec le plus de Grammy Awards",
+    "verso": "Beyoncé",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_f2g3h4i5j6k7l8m9",
@@ -347,17 +381,19 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_g3h4i5j6k7l8m9n0",
-    "recto": "Chanson 'Hallelujah' (version c\u00e9l\u00e8bre)",
+    "recto": "Chanson 'Hallelujah' (version célèbre)",
     "verso": "Leonard COHEN",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_h4i5j6k7l8m9n0o1",
@@ -367,17 +403,19 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_i5j6k7l8m9n0o1p2",
-    "recto": "Chanteur des Beatles assassin\u00e9 en 1980",
+    "recto": "Chanteur des Beatles assassiné en 1980",
     "verso": "John LENNON",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_j6k7l8m9n0o1p2q3",
@@ -387,37 +425,41 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_k7l8m9n0o1p2q3r4",
-    "recto": "Chanson fran\u00e7aise 'La Vie en rose'",
-    "verso": "\u00c9dith PIAF",
+    "recto": "Chanson française 'La Vie en rose'",
+    "verso": "Édith PIAF",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_l8m9n0o1p2q3r4s5",
-    "recto": "Ic\u00f4ne de la pop et de la mode dans les ann\u00e9es 80-90",
+    "recto": "Icône de la pop et de la mode dans les années 80-90",
     "verso": "Madonna",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_m9n0o1p2q3r4s5t6",
-    "recto": "Chanteur fran\u00e7ais de 'Formidable'",
+    "recto": "Chanteur français de 'Formidable'",
     "verso": "Stromae",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": "2025-10-27T22:24:01.001940",
     "next_review": "2025-11-03T22:24:01.001940",
-    "review_count": 1
+    "review_count": 1,
+    "category": "Music"
   },
   {
     "card_id": "card_n0o1p2q3r4s5t6u7",
@@ -427,7 +469,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_o1p2q3r4s5t6u7v8",
@@ -437,37 +480,41 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_p2q3r4s5t6u7v8w9",
-    "recto": "Rappeur am\u00e9ricain et acteur (r\u00e9alisateur)",
+    "recto": "Rappeur américain et acteur (réalisateur)",
     "verso": "Tupac SHAKUR",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_q3r4s5t6u7v8w9x0",
-    "recto": "Auteure-compositrice-interpr\u00e8te britannique connue pour son style soul",
+    "recto": "Auteure-compositrice-interprète britannique connue pour son style soul",
     "verso": "Adele",
     "difficulty": "EASY",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_r4s5t6u7v8w9x0y1",
-    "recto": "Le 'Boss' du Rock am\u00e9ricain",
+    "recto": "Le 'Boss' du Rock américain",
     "verso": "Bruce SPRINGSTEEN",
     "difficulty": "MEDIUM",
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Music"
   },
   {
     "card_id": "card_cap_1",
@@ -477,7 +524,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_2",
@@ -487,7 +535,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_3",
@@ -497,7 +546,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_4",
@@ -507,7 +557,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_5",
@@ -517,7 +568,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_6",
@@ -527,7 +579,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_7",
@@ -537,7 +590,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_8",
@@ -547,7 +601,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_9",
@@ -557,7 +612,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_10",
@@ -567,7 +623,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_11",
@@ -577,7 +634,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_12",
@@ -587,7 +645,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_13",
@@ -597,7 +656,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_14",
@@ -607,7 +667,8 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   },
   {
     "card_id": "card_cap_15",
@@ -617,6 +678,7 @@
     "created_at": "2025-10-27T22:09:41.699206",
     "last_reviewed": null,
     "next_review": "2025-10-27T22:09:41.699206",
-    "review_count": 0
+    "review_count": 0,
+    "category": "Geography"
   }
 ]

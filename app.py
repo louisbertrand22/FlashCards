@@ -96,7 +96,7 @@ def delete_card(card_id):
 @app.route('/study')
 def study():
     """Study mode - review due flashcards."""
-    due_cards = manager.get_due_flashcards()
+    due_cards = manager.get_due_flashcards(shuffle=True)
     return render_template('study.html', cards=due_cards)
 
 
