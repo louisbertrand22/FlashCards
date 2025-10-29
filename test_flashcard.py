@@ -362,6 +362,246 @@ def test_category_filtered_study():
     return True
 
 
+def test_review_history():
+    """Test review history tracking with success/failure."""
+    print("Test 9: Testing review history...")
+    
+    card = Flashcard("Test Q", "Test A", DifficultyLevel.MEDIUM)
+    
+    # Initially empty review history
+    assert len(card.review_history) == 0
+    assert card.success_streak == 0
+    print("  ✓ Initial review history is empty")
+    
+    # Mark as reviewed successfully
+    card.mark_reviewed(success=True)
+    assert len(card.review_history) == 1
+    assert card.review_history[0] == True
+    assert card.success_streak == 1
+    print("  ✓ Successful review recorded")
+    
+    # Another successful review
+    card.mark_reviewed(success=True)
+    assert len(card.review_history) == 2
+    assert card.review_history[1] == True
+    assert card.success_streak == 2
+    print("  ✓ Success streak increments")
+    
+    # Failed review
+    card.mark_reviewed(success=False)
+    assert len(card.review_history) == 3
+    assert card.review_history[2] == False
+    assert card.success_streak == 0
+    print("  ✓ Failed review resets streak")
+    
+    # Test success rate calculation
+    success_rate = card.get_success_rate()
+    assert success_rate == 2/3  # 2 successes out of 3 reviews
+    print(f"  ✓ Success rate calculated: {success_rate:.2%}")
+    
+    print("✓ Test 9 passed!\n")
+    return True
+
+
+def test_mandatory_review_cycle():
+    """Test mandatory 2-week review cycle."""
+    print("Test 10: Testing mandatory 2-week review cycle...")
+    
+    card = Flashcard("Test Q", "Test A", DifficultyLevel.EASY)
+    
+    # Initially no mandatory review
+    assert card.last_mandatory_review is None
+    print("  ✓ Initial state: no mandatory review")
+    
+    # New card should be due for initial review
+    assert card.is_due_for_review()
+    print("  ✓ New card is due for review")
+    
+    # Mark as reviewed
+    card.mark_reviewed(success=True)
+    assert not card.is_due_for_review()  # Not due yet (7 day interval for EASY)
+    print("  ✓ Card not due immediately after review")
+    
+    # Simulate 2 weeks passing from creation
+    card.created_at = datetime.now() - timedelta(days=15)
+    card.last_mandatory_review = None  # Reset to test mandatory review
+    assert card.is_due_for_review()
+    print("  ✓ Card is due after 2 weeks (mandatory review)")
+    
+    # Mark as reviewed again - this should set last_mandatory_review
+    card.mark_reviewed(success=True)
+    assert card.last_mandatory_review is not None
+    print("  ✓ Mandatory review timestamp recorded")
+    
+    # Even if normal interval hasn't passed, card should be due after 2 weeks from mandatory
+    card.next_review = datetime.now() + timedelta(days=5)  # Set far in future
+    card.last_mandatory_review = datetime.now() - timedelta(days=15)  # But 15 days ago
+    assert card.is_due_for_review()
+    print("  ✓ Mandatory 2-week cycle overrides normal interval")
+    
+    print("✓ Test 10 passed!\n")
+    return True
+
+
+def test_auto_difficulty_adjustment():
+    """Test automatic difficulty adjustment based on performance."""
+    print("Test 11: Testing auto difficulty adjustment...")
+    
+    # Test: HARD card with consistent success should become MEDIUM
+    card = Flashcard("Test Q", "Test A", DifficultyLevel.HARD)
+    
+    # Simulate 5 successful reviews (needed for auto-adjust)
+    for _ in range(5):
+        card.mark_reviewed(success=True)
+    
+    # Should have adjusted from HARD to MEDIUM (80%+ success rate)
+    assert card.difficulty == DifficultyLevel.MEDIUM
+    print("  ✓ HARD card auto-adjusted to MEDIUM after consistent success")
+    
+    # Test: EASY card with poor performance should become MEDIUM
+    card2 = Flashcard("Test Q2", "Test A2", DifficultyLevel.EASY)
+    
+    # Simulate mixed reviews with 40% or less success rate
+    for i in range(5):
+        card2.mark_reviewed(success=(i < 2))  # Only 2 successes out of 5 = 40%
+    
+    # Should have adjusted from EASY to MEDIUM
+    assert card2.difficulty == DifficultyLevel.MEDIUM
+    print("  ✓ EASY card auto-adjusted to MEDIUM after poor performance")
+    
+    # Test: MEDIUM card stays if performance is moderate
+    card3 = Flashcard("Test Q3", "Test A3", DifficultyLevel.MEDIUM)
+    
+    # Simulate moderate performance (60% success rate)
+    for i in range(5):
+        card3.mark_reviewed(success=(i < 3))  # 3 successes out of 5 = 60%
+    
+    # Should remain MEDIUM (not 80%+ or ≤40%)
+    assert card3.difficulty == DifficultyLevel.MEDIUM
+    print("  ✓ MEDIUM card remains MEDIUM with moderate performance")
+    
+    print("✓ Test 11 passed!\n")
+    return True
+
+
+def test_adaptive_intervals():
+    """Test adaptive review intervals based on success/failure."""
+    print("Test 12: Testing adaptive review intervals...")
+    
+    card = Flashcard("Test Q", "Test A", DifficultyLevel.MEDIUM)
+    
+    # Failed review should reduce interval
+    card.mark_reviewed(success=False)
+    next_review_after_fail = card.next_review
+    # Medium is 3 days, failed should be 1-2 days (halved, min 1)
+    expected_max = datetime.now() + timedelta(days=2)
+    assert card.next_review <= expected_max
+    print("  ✓ Failed review reduces next interval")
+    
+    # Build up a success streak
+    card2 = Flashcard("Test Q2", "Test A2", DifficultyLevel.MEDIUM)
+    for _ in range(3):
+        card2.mark_reviewed(success=True)
+    
+    # With streak of 3+, interval should be extended
+    assert card2.success_streak >= 3
+    # Medium is 3 days, with streak bonus should be 4-5 days
+    expected_min = datetime.now() + timedelta(days=3)
+    assert card2.next_review >= expected_min
+    print("  ✓ Success streak extends interval")
+    
+    print("✓ Test 12 passed!\n")
+    return True
+
+
+def test_new_statistics():
+    """Test new statistics with review history."""
+    print("Test 13: Testing new statistics...")
+    
+    # Use a test file
+    test_file = 'test_flashcards_stats.json'
+    
+    # Clean up if exists
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    # Create manager
+    manager = FlashcardManager(test_file)
+    
+    # Add cards
+    card1 = manager.add_flashcard("Q1", "A1", DifficultyLevel.EASY)
+    card2 = manager.add_flashcard("Q2", "A2", DifficultyLevel.MEDIUM)
+    
+    # Review cards with mixed results
+    manager.mark_card_reviewed(card1.card_id, success=True)
+    manager.mark_card_reviewed(card1.card_id, success=True)
+    manager.mark_card_reviewed(card1.card_id, success=True)
+    manager.mark_card_reviewed(card2.card_id, success=True)
+    manager.mark_card_reviewed(card2.card_id, success=False)
+    
+    stats = manager.get_statistics()
+    
+    # Check new statistics
+    assert 'overall_success_rate' in stats
+    assert 'best_streak' in stats
+    assert 'cards_with_streaks' in stats
+    
+    assert stats['overall_success_rate'] == 80.0  # 4 successes / 5 total = 80%
+    assert stats['best_streak'] == 3  # card1 has streak of 3
+    assert stats['cards_with_streaks'] == 1  # only card1 has active streak (card2 failed last review)
+    print("  ✓ New statistics calculated correctly")
+    
+    # Clean up
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    print("✓ Test 13 passed!\n")
+    return True
+
+
+def test_backward_compatibility():
+    """Test that old flashcards without new fields load correctly."""
+    print("Test 14: Testing backward compatibility...")
+    
+    # Create a flashcard dict in old format (without new fields)
+    old_format_data = {
+        'card_id': 'test_card_123',
+        'recto': 'Old Question',
+        'verso': 'Old Answer',
+        'difficulty': 'MEDIUM',
+        'category': 'Test',
+        'created_at': datetime.now().isoformat(),
+        'last_reviewed': None,
+        'next_review': datetime.now().isoformat(),
+        'review_count': 0
+    }
+    
+    # Load from old format
+    card = Flashcard.from_dict(old_format_data)
+    
+    # Check that new fields have default values
+    assert card.review_history == []
+    assert card.last_mandatory_review is None
+    assert card.success_streak == 0
+    print("  ✓ Old format loads with default values for new fields")
+    
+    # Should be able to use new features
+    card.mark_reviewed(success=True)
+    assert len(card.review_history) == 1
+    assert card.success_streak == 1
+    print("  ✓ Old flashcards can use new features after loading")
+    
+    # Serialization should include new fields
+    new_data = card.to_dict()
+    assert 'review_history' in new_data
+    assert 'last_mandatory_review' in new_data
+    assert 'success_streak' in new_data
+    print("  ✓ Reserialization includes new fields")
+    
+    print("✓ Test 14 passed!\n")
+    return True
+
+
 def run_all_tests():
     """Run all tests."""
     print("=" * 60)
@@ -377,7 +617,13 @@ def run_all_tests():
         test_serialization,
         test_category_functionality,
         test_shuffle_functionality,
-        test_category_filtered_study
+        test_category_filtered_study,
+        test_review_history,
+        test_mandatory_review_cycle,
+        test_auto_difficulty_adjustment,
+        test_adaptive_intervals,
+        test_new_statistics,
+        test_backward_compatibility
     ]
     
     passed = 0

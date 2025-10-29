@@ -193,19 +193,20 @@ class FlashcardManager:
             return True
         return False
     
-    def mark_card_reviewed(self, card_id):
+    def mark_card_reviewed(self, card_id, success=True):
         """
         Mark a card as reviewed.
         
         Args:
             card_id (str): ID of the card
+            success (bool): Whether the review was successful (default: True)
             
         Returns:
             bool: True if marked, False if not found
         """
         card = self.get_flashcard(card_id)
         if card:
-            card.mark_reviewed()
+            card.mark_reviewed(success)
             self.save_flashcards()
             return True
         return False
@@ -225,11 +226,25 @@ class FlashcardManager:
         
         total_reviews = sum(card.review_count for card in self.flashcards)
         
+        # Calculate overall success rate
+        total_successes = sum(sum(card.review_history) for card in self.flashcards if card.review_history)
+        total_review_history = sum(len(card.review_history) for card in self.flashcards)
+        overall_success_rate = (total_successes / total_review_history * 100) if total_review_history > 0 else 0
+        
+        # Find best streak
+        best_streak = max((card.success_streak for card in self.flashcards), default=0)
+        
+        # Count cards with active streaks
+        cards_with_streaks = sum(1 for card in self.flashcards if card.success_streak > 0)
+        
         return {
             'total_cards': total,
             'due_for_review': due,
             'easy_cards': easy,
             'medium_cards': medium,
             'hard_cards': hard,
-            'total_reviews': total_reviews
+            'total_reviews': total_reviews,
+            'overall_success_rate': round(overall_success_rate, 1),
+            'best_streak': best_streak,
+            'cards_with_streaks': cards_with_streaks
         }
