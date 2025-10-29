@@ -3,8 +3,10 @@ Flask web application for the Flashcard application.
 Provides a web-based interface for managing and studying flashcards.
 """
 import os
+from datetime import timedelta
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_babel import Babel, gettext, lazy_gettext
+from flask_jwt_extended import JWTManager
 from flashcard import DifficultyLevel
 from flashcard_manager import FlashcardManager
 from datetime import datetime
@@ -12,6 +14,12 @@ from datetime import datetime
 app = Flask(__name__)
 # Use environment variable for secret key in production, fallback to default for development
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key-change-in-production')
+
+# Configure JWT
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', app.secret_key)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+jwt = JWTManager(app)
 
 # Configure Babel
 app.config['BABEL_DEFAULT_LOCALE'] = 'fr'
@@ -31,6 +39,12 @@ storage_file = os.path.join(data_dir, 'flashcards.json')
 
 # Initialize flashcard manager
 manager = FlashcardManager(storage_file=storage_file)
+
+# Register blueprints for JWT authentication and API
+from auth import auth_bp
+from api import api_bp
+app.register_blueprint(auth_bp)
+app.register_blueprint(api_bp)
 
 
 @app.route('/')

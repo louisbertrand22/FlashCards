@@ -38,6 +38,8 @@ ENV/
 # Flashcard data files (user-specific)
 flashcards.json
 demo_flashcards.json
+users.json
+test_*.json
 
 # OS files
 .DS_Store

@@ -25,7 +25,7 @@ class DifficultyLevel(Enum):
 class Flashcard:
     """A flashcard with a front (recto), back (verso), and difficulty level."""
     
-    def __init__(self, recto, verso, difficulty=DifficultyLevel.MEDIUM, card_id=None, category=None):
+    def __init__(self, recto, verso, difficulty=DifficultyLevel.MEDIUM, card_id=None, category=None, user_id=None):
         """
         Initialize a flashcard.
         
@@ -35,12 +35,14 @@ class Flashcard:
             difficulty (DifficultyLevel): Difficulty level of the card
             card_id (str): Unique identifier for the card
             category (str): Optional category for organizing cards
+            user_id (str): Optional user ID for multi-user support
         """
         self.card_id = card_id or self._generate_id()
         self.recto = recto
         self.verso = verso
         self.difficulty = difficulty
         self.category = category
+        self.user_id = user_id
         self.created_at = datetime.now()
         self.last_reviewed = None
         self.next_review = datetime.now()
@@ -183,6 +185,7 @@ class Flashcard:
             'verso': self.verso,
             'difficulty': self.difficulty.name,
             'category': self.category,
+            'user_id': self.user_id,
             'created_at': self.created_at.isoformat(),
             'last_reviewed': self.last_reviewed.isoformat() if self.last_reviewed else None,
             'next_review': self.next_review.isoformat(),
@@ -201,7 +204,8 @@ class Flashcard:
             verso=data['verso'],
             difficulty=difficulty,
             card_id=data['card_id'],
-            category=data.get('category')  # Use .get() for backward compatibility
+            category=data.get('category'),  # Use .get() for backward compatibility
+            user_id=data.get('user_id')  # Use .get() for backward compatibility
         )
         card.created_at = datetime.fromisoformat(data['created_at'])
         card.last_reviewed = datetime.fromisoformat(data['last_reviewed']) if data['last_reviewed'] else None
