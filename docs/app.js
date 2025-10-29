@@ -163,6 +163,13 @@ class FlashcardManager {
 // Global manager instance
 const manager = new FlashcardManager();
 
+// Utility function to escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // View management
 function showView(viewName) {
     // Hide all views
@@ -459,7 +466,7 @@ function loadStudyMode() {
 
     if (studyCards.length === 0) {
         const message = selectedStudyCategory 
-            ? `You don't have any flashcards due for review in category "${selectedStudyCategory}" right now.`
+            ? `You don't have any flashcards due for review in category "${escapeHtml(selectedStudyCategory)}" right now.`
             : `You don't have any flashcards due for review right now.`;
         
         container.innerHTML = `
