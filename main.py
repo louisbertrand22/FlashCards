@@ -93,10 +93,47 @@ class FlashcardCLI:
     
     def study_flashcards(self):
         """Review flashcards that are due."""
-        due_cards = self.manager.get_due_flashcards(shuffle=True)
+        # Get all due cards first
+        all_due_cards = self.manager.get_due_flashcards(shuffle=False)
+        
+        if not all_due_cards:
+            print(ui.success("No flashcards due for review right now!"))
+            return
+        
+        # Check if there are categories to filter by
+        categories = self.manager.get_all_categories()
+        selected_category = None
+        
+        if categories:
+            print(ui.subheader("Category Selection", 60))
+            print(f"{ui.bold('Available categories:')}")
+            print(ui.menu_option(0, "All categories (review all due cards)", "📚"))
+            for i, cat in enumerate(categories, 1):
+                # Count due cards in this category
+                cat_due_count = len([c for c in all_due_cards if c.category == cat])
+                print(ui.menu_option(i, f"{cat} ({cat_due_count} due)", "📁"))
+            
+            choice = input(ui.prompt(f"Select category (0-{len(categories)})", "0")).strip()
+            
+            # Parse choice
+            if choice.isdigit():
+                choice_num = int(choice)
+                if 1 <= choice_num <= len(categories):
+                    selected_category = categories[choice_num - 1]
+                    print(f"\n{ui.info(f'Studying category: 📁 {selected_category}')}")
+        
+        # Filter cards by category if selected
+        if selected_category:
+            due_cards = [card for card in all_due_cards if card.category == selected_category]
+        else:
+            due_cards = all_due_cards
+        
+        # Shuffle the cards
+        import random
+        random.shuffle(due_cards)
         
         if not due_cards:
-            print(ui.success("No flashcards due for review right now!"))
+            print(ui.warning(f"No flashcards due for review in category '{selected_category}'!"))
             return
         
         print(ui.subheader(f"Study Session ({len(due_cards)} cards due)", 60))
