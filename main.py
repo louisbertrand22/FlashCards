@@ -5,6 +5,7 @@ import random
 from flashcard import DifficultyLevel
 from flashcard_manager import FlashcardManager
 from ui_components import ui, Colors
+from translations_fr import _ as tr
 
 
 class FlashcardCLI:
@@ -17,42 +18,42 @@ class FlashcardCLI:
     
     def display_menu(self):
         """Display the main menu."""
-        print(ui.header("FLASHCARD APPLICATION", 60))
-        print(ui.menu_option(1, "Create a new flashcard", "📝"))
-        print(ui.menu_option(2, "View all flashcards", "📚"))
-        print(ui.menu_option(3, "Study flashcards (review due cards)", "🎯"))
-        print(ui.menu_option(4, "View statistics", "📊"))
-        print(ui.menu_option(5, "Update card difficulty", "⚙️"))
-        print(ui.menu_option(6, "Delete a flashcard", "🗑️"))
-        print(ui.menu_option(7, "Exit", "👋"))
+        print(ui.header(tr("FLASHCARD APPLICATION"), 60))
+        print(ui.menu_option(1, tr("Create a new flashcard"), "📝"))
+        print(ui.menu_option(2, tr("View all flashcards"), "📚"))
+        print(ui.menu_option(3, tr("Study flashcards (review due cards)"), "🎯"))
+        print(ui.menu_option(4, tr("View statistics"), "📊"))
+        print(ui.menu_option(5, tr("Update card difficulty"), "⚙️"))
+        print(ui.menu_option(6, tr("Delete a flashcard"), "🗑️"))
+        print(ui.menu_option(7, tr("Exit"), "👋"))
         print(ui.separator(60))
     
     def create_flashcard(self):
         """Create a new flashcard through user input."""
-        print(ui.subheader("Create New Flashcard", 60))
-        recto = input(ui.prompt("Enter the front side (recto)")).strip()
+        print(ui.subheader(tr("Create New Flashcard"), 60))
+        recto = input(ui.prompt(tr("Enter the front side (recto)"))).strip()
         if not recto:
-            print(ui.error("Front side cannot be empty!"))
+            print(ui.error(tr("Front side cannot be empty!")))
             return
         
-        verso = input(ui.prompt("Enter the back side (verso)")).strip()
+        verso = input(ui.prompt(tr("Enter the back side (verso)"))).strip()
         if not verso:
-            print(ui.error("Back side cannot be empty!"))
+            print(ui.error(tr("Back side cannot be empty!")))
             return
         
         # Category input
         categories = self.manager.get_all_categories()
         if categories:
-            print(f"\n{ui.bold('Existing categories:')} {', '.join(categories)}")
-        category = input(ui.prompt("Enter category (optional, press Enter to skip)")).strip()
+            print(f"\n{ui.bold(tr('Existing categories:'))} {', '.join(categories)}")
+        category = input(ui.prompt(tr("Enter category (optional, press Enter to skip)"))).strip()
         category = category if category else None
         
-        print("\n" + ui.bold("Select difficulty level:"))
-        print(ui.menu_option(1, "Easy (review every 7 days)", "🟢"))
-        print(ui.menu_option(2, "Medium (review every 3 days)", "🟡"))
-        print(ui.menu_option(3, "Hard (review every 1 day)", "🔴"))
+        print("\n" + ui.bold(tr("Select difficulty level:")))
+        print(ui.menu_option(1, tr("Easy (review every 7 days)"), "🟢"))
+        print(ui.menu_option(2, tr("Medium (review every 3 days)"), "🟡"))
+        print(ui.menu_option(3, tr("Hard (review every 1 day)"), "🔴"))
         
-        difficulty_choice = input(ui.prompt("Enter choice (1-3)", "2")).strip()
+        difficulty_choice = input(ui.prompt(tr("Enter choice (1-3)"), "2")).strip()
         
         difficulty_map = {
             '1': DifficultyLevel.EASY,
@@ -64,41 +65,41 @@ class FlashcardCLI:
         difficulty = difficulty_map.get(difficulty_choice, DifficultyLevel.MEDIUM)
         
         card = self.manager.add_flashcard(recto, verso, difficulty, category=category)
-        print(f"\n{ui.success('Flashcard created successfully!')}")
-        print(f"  {ui.colorize('ID:', Colors.CYAN)} {card.card_id}")
+        print(f"\n{ui.success(tr('Flashcard created successfully!'))}")
+        print(f"  {ui.colorize(tr('ID:'), Colors.CYAN)} {card.card_id}")
         if card.category:
-            print(f"  {ui.colorize('Category:', Colors.CYAN)} 📁 {card.category}")
-        print(f"  {ui.colorize('Difficulty:', Colors.CYAN)} {ui.difficulty_badge(card.difficulty.name)}")
+            print(f"  {ui.colorize(tr('Category:'), Colors.CYAN)} 📁 {card.category}")
+        print(f"  {ui.colorize(tr('Difficulty:'), Colors.CYAN)} {ui.difficulty_badge(card.difficulty.name)}")
     
     def view_all_flashcards(self):
         """Display all flashcards."""
         cards = self.manager.get_all_flashcards()
         
         if not cards:
-            print(ui.info("No flashcards found. Create one first!"))
+            print(ui.info(tr("No flashcards found. Create one first!")))
             return
         
-        print(ui.subheader(f"All Flashcards ({len(cards)} total)", 60))
+        print(ui.subheader(f"{tr('All Flashcards')} ({len(cards)} {tr('total')})", 60))
         for i, card in enumerate(cards, 1):
             if card.is_due_for_review():
-                due_status = ui.colorize("✓ Due", Colors.BRIGHT_GREEN)
+                due_status = ui.colorize(f"✓ {tr('Due')}", Colors.BRIGHT_GREEN)
             else:
-                due_status = ui.colorize("○ Not due", Colors.DIM)
+                due_status = ui.colorize(f"○ {tr('Not due')}", Colors.DIM)
             
             category_badge = f" 📁 {card.category}" if card.category else ""
             print(f"\n{ui.colorize(str(i), Colors.BRIGHT_CYAN)}. [{due_status}] {ui.difficulty_badge(card.difficulty.name)}{category_badge}")
-            print(f"   {ui.colorize('Recto:', Colors.YELLOW)} {card.recto}")
-            print(f"   {ui.colorize('Verso:', Colors.YELLOW)} {card.verso}")
+            print(f"   {ui.colorize(tr('Recto:'), Colors.YELLOW)} {card.recto}")
+            print(f"   {ui.colorize(tr('Verso:'), Colors.YELLOW)} {card.verso}")
             
             # Show review stats
             reviews_info = f"{card.review_count}"
             if card.review_count > 0:
                 success_rate = card.get_success_rate()
                 if success_rate is not None:
-                    reviews_info += f" ({success_rate:.0%} success)"
+                    reviews_info += f" ({success_rate:.0%} {tr('success')})"
                 if card.success_streak > 0:
                     reviews_info += f" 🔥{card.success_streak}"
-            print(f"   {ui.colorize('Reviews:', Colors.CYAN)} {reviews_info}")
+            print(f"   {ui.colorize(tr('Reviews:'), Colors.CYAN)} {reviews_info}")
             print(f"   {ui.dim(f'ID: {card.card_id}')}")
     
     def study_flashcards(self):
@@ -107,7 +108,7 @@ class FlashcardCLI:
         all_due_cards = self.manager.get_due_flashcards(shuffle=False)
         
         if not all_due_cards:
-            print(ui.success("No flashcards due for review right now!"))
+            print(ui.success(tr("No flashcards due for review right now!")))
             return
         
         # Check if there are categories to filter by
@@ -115,22 +116,22 @@ class FlashcardCLI:
         selected_category = None
         
         if categories:
-            print(ui.subheader("Category Selection", 60))
-            print(f"{ui.bold('Available categories:')}")
-            print(ui.menu_option(0, "All categories (review all due cards)", "📚"))
+            print(ui.subheader(tr("Category Selection"), 60))
+            print(f"{ui.bold(tr('Available categories:'))}")
+            print(ui.menu_option(0, tr("All categories (review all due cards)"), "📚"))
             for i, cat in enumerate(categories, 1):
                 # Count due cards in this category
                 cat_due_count = len([c for c in all_due_cards if c.category == cat])
-                print(ui.menu_option(i, f"{cat} ({cat_due_count} due)", "📁"))
+                print(ui.menu_option(i, f"{cat} ({cat_due_count} {tr('due')})", "📁"))
             
-            choice = input(ui.prompt(f"Select category (0-{len(categories)})", "0")).strip()
+            choice = input(ui.prompt(f"{tr('Select category')} (0-{len(categories)})", "0")).strip()
             
             # Parse choice
             if choice.isdigit():
                 choice_num = int(choice)
                 if 1 <= choice_num <= len(categories):
                     selected_category = categories[choice_num - 1]
-                    print(f"\n{ui.info(f'Studying category: 📁 {selected_category}')}")
+                    print(f"\n{ui.info(f'{tr('Studying category:')} 📁 {selected_category}')}")
         
         # Filter cards by category if selected
         if selected_category:
@@ -142,92 +143,92 @@ class FlashcardCLI:
         random.shuffle(due_cards)
         
         if not due_cards:
-            print(ui.warning(f"No flashcards due for review in category '{selected_category}'!"))
+            print(ui.warning(f"{tr('No flashcards due for review in category')} '{selected_category}'!"))
             return
         
-        print(ui.subheader(f"Study Session ({len(due_cards)} cards due)", 60))
-        print(ui.info("📝 Cards will be presented in random order"))
+        print(ui.subheader(f"{tr('Study Session')} ({len(due_cards)} {tr('cards due')})", 60))
+        print(ui.info(f"📝 {tr('Cards will be presented in random order')}"))
         
         for i, card in enumerate(due_cards, 1):
             # Show progress
             progress = ui.progress_bar(i - 1, len(due_cards), 40)
             print(f"\n{progress}")
             
-            print(f"\n{ui.bold(f'Card {i}/{len(due_cards)}')} {ui.difficulty_badge(card.difficulty.name)}")
+            print(f"\n{ui.bold(f'{tr('Card')} {i}/{len(due_cards)}')} {ui.difficulty_badge(card.difficulty.name)}")
             print(ui.separator(60))
-            print(f"{ui.colorize('Front:', Colors.BRIGHT_YELLOW)} {ui.bold(card.recto)}")
-            input(ui.colorize("\n▶ Press Enter to reveal the back side...", Colors.BRIGHT_CYAN))
-            print(f"{ui.colorize('Back:', Colors.BRIGHT_GREEN)} {ui.bold(card.verso)}")
+            print(f"{ui.colorize(tr('Front:'), Colors.BRIGHT_YELLOW)} {ui.bold(card.recto)}")
+            input(ui.colorize(f"\n▶ {tr('Press Enter to reveal the back side...')}", Colors.BRIGHT_CYAN))
+            print(f"{ui.colorize(tr('Back:'), Colors.BRIGHT_GREEN)} {ui.bold(card.verso)}")
             print(ui.separator(60))
             
-            response = input(ui.prompt("Did you remember? (y/n)", "y")).strip().lower()
+            response = input(ui.prompt(f"{tr('Did you remember?')} (y/n)", "y")).strip().lower()
             
             if response in ['y', 'yes', '']:
                 self.manager.mark_card_reviewed(card.card_id, success=True)
-                print(ui.success("✓ Marked as reviewed successfully!"))
+                print(ui.success(f"✓ {tr('Marked as reviewed successfully!')}"))
                 
                 # Show streak if there is one
                 updated_card = self.manager.get_flashcard(card.card_id)
                 if updated_card.success_streak > 1:
-                    print(ui.colorize(f"  🔥 Success streak: {updated_card.success_streak}!", Colors.BRIGHT_YELLOW))
+                    print(ui.colorize(f"  🔥 {tr('Success streak:')} {updated_card.success_streak}!", Colors.BRIGHT_YELLOW))
             else:
                 self.manager.mark_card_reviewed(card.card_id, success=False)
-                print(ui.warning("✗ Marked as review needed. This card will be reviewed sooner."))
+                print(ui.warning(f"✗ {tr('Marked as review needed. This card will be reviewed sooner.')}"))
             
             if i < len(due_cards):
-                continue_study = input(ui.prompt("Continue to next card? (y/n)", "y")).strip().lower()
+                continue_study = input(ui.prompt(f"{tr('Continue to next card?')} (y/n)", "y")).strip().lower()
                 if continue_study in ['n', 'no']:
                     break
         
         # Final progress
         progress = ui.progress_bar(len(due_cards), len(due_cards), 40)
         print(f"\n{progress}")
-        print(ui.success("Study session complete!"))
+        print(ui.success(tr("Study session complete!")))
     
     def view_statistics(self):
         """Display statistics about the flashcard collection."""
         stats = self.manager.get_statistics()
         
-        print(ui.subheader("Flashcard Statistics", 60))
-        print(ui.stat_line("Total flashcards", stats['total_cards'], Colors.BRIGHT_CYAN))
-        print(ui.stat_line("Due for review", stats['due_for_review'], Colors.BRIGHT_YELLOW))
-        print(ui.stat_line("Total reviews completed", stats['total_reviews'], Colors.BRIGHT_GREEN))
+        print(ui.subheader(tr("Flashcard Statistics"), 60))
+        print(ui.stat_line(tr("Total flashcards"), stats['total_cards'], Colors.BRIGHT_CYAN))
+        print(ui.stat_line(tr("Due for review"), stats['due_for_review'], Colors.BRIGHT_YELLOW))
+        print(ui.stat_line(tr("Total reviews completed"), stats['total_reviews'], Colors.BRIGHT_GREEN))
         
         # Show new review performance stats
         if stats['total_reviews'] > 0:
-            print(ui.stat_line("Overall success rate", f"{stats['overall_success_rate']}%", Colors.BRIGHT_MAGENTA))
-            print(ui.stat_line("Best success streak", f"🔥 {stats['best_streak']}", Colors.BRIGHT_YELLOW))
-            print(ui.stat_line("Cards with active streaks", stats['cards_with_streaks'], Colors.BRIGHT_GREEN))
+            print(ui.stat_line(tr("Overall success rate"), f"{stats['overall_success_rate']}%", Colors.BRIGHT_MAGENTA))
+            print(ui.stat_line(tr("Best success streak"), f"🔥 {stats['best_streak']}", Colors.BRIGHT_YELLOW))
+            print(ui.stat_line(tr("Cards with active streaks"), stats['cards_with_streaks'], Colors.BRIGHT_GREEN))
         
-        print(f"\n{ui.colorize(ui.bold('By difficulty:'), Colors.BRIGHT_WHITE)}")
-        print(ui.stat_line("  🟢 Easy", stats['easy_cards'], Colors.BRIGHT_GREEN))
-        print(ui.stat_line("  🟡 Medium", stats['medium_cards'], Colors.BRIGHT_YELLOW))
-        print(ui.stat_line("  🔴 Hard", stats['hard_cards'], Colors.BRIGHT_RED))
+        print(f"\n{ui.colorize(ui.bold(tr('By difficulty:')), Colors.BRIGHT_WHITE)}")
+        print(ui.stat_line(f"  🟢 {tr('Easy')}", stats['easy_cards'], Colors.BRIGHT_GREEN))
+        print(ui.stat_line(f"  🟡 {tr('Medium')}", stats['medium_cards'], Colors.BRIGHT_YELLOW))
+        print(ui.stat_line(f"  🔴 {tr('Hard')}", stats['hard_cards'], Colors.BRIGHT_RED))
     
     def update_difficulty(self):
         """Update the difficulty of a flashcard."""
         cards = self.manager.get_all_flashcards()
         
         if not cards:
-            print(ui.info("No flashcards found!"))
+            print(ui.info(tr("No flashcards found!")))
             return
         
         self.view_all_flashcards()
         
-        card_id = input(ui.prompt("Enter the card ID to update")).strip()
+        card_id = input(ui.prompt(tr("Enter the card ID to update"))).strip()
         card = self.manager.get_flashcard(card_id)
         
         if not card:
-            print(ui.error("Card not found!"))
+            print(ui.error(tr("Card not found!")))
             return
         
-        print(f"\n{ui.colorize('Current difficulty:', Colors.CYAN)} {ui.difficulty_badge(card.difficulty.name)}")
-        print("\n" + ui.bold("Select new difficulty level:"))
-        print(ui.menu_option(1, "Easy (review every 7 days)", "🟢"))
-        print(ui.menu_option(2, "Medium (review every 3 days)", "🟡"))
-        print(ui.menu_option(3, "Hard (review every 1 day)", "🔴"))
+        print(f"\n{ui.colorize(tr('Current difficulty:'), Colors.CYAN)} {ui.difficulty_badge(card.difficulty.name)}")
+        print("\n" + ui.bold(tr("Select new difficulty level:")))
+        print(ui.menu_option(1, tr("Easy (review every 7 days)"), "🟢"))
+        print(ui.menu_option(2, tr("Medium (review every 3 days)"), "🟡"))
+        print(ui.menu_option(3, tr("Hard (review every 1 day)"), "🔴"))
         
-        choice = input(ui.prompt("Enter choice (1-3)")).strip()
+        choice = input(ui.prompt(tr("Enter choice (1-3)"))).strip()
         
         difficulty_map = {
             '1': DifficultyLevel.EASY,
@@ -239,40 +240,40 @@ class FlashcardCLI:
         
         if new_difficulty:
             self.manager.update_card_difficulty(card_id, new_difficulty)
-            print(f"\n{ui.success(f'Difficulty updated to {new_difficulty.name}!')}")
+            print(f"\n{ui.success(f'{tr('Difficulty updated to')} {new_difficulty.name}!')}")
         else:
-            print(ui.error("Invalid choice!"))
+            print(ui.error(tr("Invalid choice!")))
     
     def delete_flashcard(self):
         """Delete a flashcard."""
         cards = self.manager.get_all_flashcards()
         
         if not cards:
-            print(ui.info("No flashcards found!"))
+            print(ui.info(tr("No flashcards found!")))
             return
         
         self.view_all_flashcards()
         
-        card_id = input(ui.prompt("Enter the card ID to delete")).strip()
+        card_id = input(ui.prompt(tr("Enter the card ID to delete"))).strip()
         
-        confirm = input(ui.colorize("⚠️  Are you sure you want to delete this card? (yes/no): ", Colors.BRIGHT_RED)).strip().lower()
+        confirm = input(ui.colorize(f"⚠️  {tr('Are you sure you want to delete this card?')} (yes/no): ", Colors.BRIGHT_RED)).strip().lower()
         
         if confirm == 'yes':
             if self.manager.remove_flashcard(card_id):
-                print(ui.success("Flashcard deleted successfully!"))
+                print(ui.success(tr("Flashcard deleted successfully!")))
             else:
-                print(ui.error("Card not found!"))
+                print(ui.error(tr("Card not found!")))
         else:
-            print(ui.info("Deletion cancelled."))
+            print(ui.info(tr("Deletion cancelled.")))
     
     def run(self):
         """Run the main application loop."""
-        print(ui.colorize("\n✨ Welcome to the Flashcard Application! ✨", Colors.BRIGHT_MAGENTA))
+        print(ui.colorize(f"\n✨ {tr('Welcome to the Flashcard Application!')} ✨", Colors.BRIGHT_MAGENTA))
         
         while self.running:
             try:
                 self.display_menu()
-                choice = input(ui.prompt("Enter your choice (1-7)")).strip()
+                choice = input(ui.prompt(tr("Enter your choice") + " (1-7)")).strip()
                 
                 if choice == '1':
                     self.create_flashcard()
@@ -287,17 +288,17 @@ class FlashcardCLI:
                 elif choice == '6':
                     self.delete_flashcard()
                 elif choice == '7':
-                    print(ui.colorize("\n✨ Thank you for using Flashcard Application. Goodbye! ✨\n", Colors.BRIGHT_MAGENTA))
+                    print(ui.colorize(f"\n✨ {tr('Thank you for using Flashcard Application. Goodbye!')} ✨\n", Colors.BRIGHT_MAGENTA))
                     self.running = False
                 else:
-                    print(ui.error("Invalid choice! Please enter a number between 1 and 7."))
+                    print(ui.error(tr("Invalid choice! Please enter a number between 1 and 7.")))
             
             except KeyboardInterrupt:
-                print(ui.colorize("\n\n👋 Exiting... Goodbye!\n", Colors.BRIGHT_YELLOW))
+                print(ui.colorize(f"\n\n👋 {tr('Exiting... Goodbye!')}\n", Colors.BRIGHT_YELLOW))
                 self.running = False
             except Exception as e:
-                print(ui.error(f"An error occurred: {e}"))
-                print(ui.warning("Please try again."))
+                print(ui.error(f"{tr('An error occurred:')} {e}"))
+                print(ui.warning(tr("Please try again.")))
 
 
 def main():
