@@ -114,8 +114,18 @@ def study():
 @app.route('/cards/<card_id>/review', methods=['POST'])
 def mark_reviewed(card_id):
     """Mark a card as reviewed."""
-    if manager.mark_card_reviewed(card_id):
-        return jsonify({'success': True, 'message': 'Card marked as reviewed!'})
+    data = request.get_json() or {}
+    success = data.get('success', True)  # Default to True for backward compatibility
+    
+    if manager.mark_card_reviewed(card_id, success=success):
+        # Get updated card info for response
+        card = manager.get_flashcard(card_id)
+        response_data = {
+            'success': True,
+            'message': 'Card marked as reviewed!' if success else 'Card needs more practice.',
+            'streak': card.success_streak if card else 0
+        }
+        return jsonify(response_data)
     else:
         return jsonify({'success': False, 'message': 'Card not found!'}), 404
 

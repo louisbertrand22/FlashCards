@@ -59,7 +59,17 @@
                 <hr>
                 <div class="card-meta">
                     <small class="text-muted">
-                        <strong>Reviews:</strong> {{ card.review_count }} |
+                        <strong>Reviews:</strong> {{ card.review_count }}
+                        {% if card.review_count > 0 %}
+                            {% set success_rate = card.get_success_rate() %}
+                            {% if success_rate is not none %}
+                                ({{ (success_rate * 100)|round|int }}% success)
+                            {% endif %}
+                            {% if card.success_streak > 0 %}
+                                🔥{{ card.success_streak }}
+                            {% endif %}
+                        {% endif %}
+                        |
                         <strong>Last reviewed:</strong> {{ card.last_reviewed|format_datetime }} |
                         <strong>Next review:</strong> {{ card.next_review|format_datetime }}
                     </small>
