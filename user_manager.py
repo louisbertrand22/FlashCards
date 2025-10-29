@@ -29,16 +29,30 @@ class UserManager:
                 data = json.load(f)
                 return {username: User.from_dict(user_data) 
                         for username, user_data in data.items()}
-        except (json.JSONDecodeError, IOError):
+        except json.JSONDecodeError:
+            return {}
+        except PermissionError:
+            print(f"Error: Permission denied when trying to read from {self.storage_file}")
+            print("Please check file permissions.")
+            return {}
+        except OSError as e:
+            print(f"Error: Could not load users from {self.storage_file}: {e}")
             return {}
     
     def _save_users(self):
         """Save users to the storage file."""
-        data = {username: user.to_dict() 
-                for username, user in self.users.items()}
-        
-        with open(self.storage_file, 'w') as f:
-            json.dump(data, f, indent=2)
+        try:
+            data = {username: user.to_dict() 
+                    for username, user in self.users.items()}
+            
+            with open(self.storage_file, 'w') as f:
+                json.dump(data, f, indent=2)
+        except PermissionError:
+            print(f"Error: Permission denied when trying to write to {self.storage_file}")
+            print("Please check file permissions or choose a different location.")
+        except OSError as e:
+            print(f"Error: Could not save users to {self.storage_file}: {e}")
+            print("Please check that the directory exists and is writable.")
     
     def create_user(self, username, password):
         """
