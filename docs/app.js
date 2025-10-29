@@ -27,6 +27,16 @@ class FlashcardManager {
         return 'card_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
     }
 
+    shuffleArray(array) {
+        // Fisher-Yates shuffle algorithm
+        const shuffled = [...array]; // Create a copy to avoid mutating the original
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
     addCard(front, back, difficulty, category = null) {
         const card = {
             id: this.generateId(),
@@ -107,11 +117,7 @@ class FlashcardManager {
         });
         
         if (shuffle) {
-            // Fisher-Yates shuffle algorithm
-            for (let i = dueCards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [dueCards[i], dueCards[j]] = [dueCards[j], dueCards[i]];
-            }
+            return this.shuffleArray(dueCards);
         }
         
         return dueCards;
@@ -440,12 +446,8 @@ function loadStudyMode() {
     // Get cards based on selected category
     const allDueCards = manager.getDueCards(false);
     if (selectedStudyCategory) {
-        studyCards = allDueCards.filter(card => card.category === selectedStudyCategory);
-        // Shuffle manually
-        for (let i = studyCards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [studyCards[i], studyCards[j]] = [studyCards[j], studyCards[i]];
-        }
+        const filteredCards = allDueCards.filter(card => card.category === selectedStudyCategory);
+        studyCards = manager.shuffleArray(filteredCards);
     } else {
         studyCards = manager.getDueCards(true); // Enable shuffle
     }

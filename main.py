@@ -1,6 +1,7 @@
 """
 Command-line interface for the Flashcard application.
 """
+import random
 from flashcard import DifficultyLevel
 from flashcard_manager import FlashcardManager
 from ui_components import ui, Colors
@@ -129,7 +130,6 @@ class FlashcardCLI:
             due_cards = all_due_cards
         
         # Shuffle the cards
-        import random
         random.shuffle(due_cards)
         
         if not due_cards:
