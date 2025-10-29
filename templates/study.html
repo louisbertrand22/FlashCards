@@ -9,11 +9,42 @@
     </div>
 </div>
 
+<!-- Category Filter -->
+{% if categories %}
+<div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">📁 Select Category</h5>
+                <form method="get" action="{{ url_for('study') }}" class="row g-3">
+                    <div class="col-auto">
+                        <select name="category" class="form-select" id="categorySelect" onchange="this.form.submit()">
+                            <option value="" {% if not selected_category %}selected{% endif %}>All Categories</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                    {% if selected_category %}
+                    <div class="col-auto">
+                        <a href="{{ url_for('study') }}" class="btn btn-secondary">Clear Filter</a>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% if cards %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="alert alert-warning text-center">
-            <h5>📚 {{ cards|length }} card(s) due for review!</h5>
+            <h5>📚 {{ cards|length }} card(s) due for review{% if selected_category %} in category "{{ selected_category }}"{% endif %}!</h5>
             <p class="mb-0">🔀 Cards are presented in random order. Click on a card to reveal the answer, then mark if you remembered it.</p>
         </div>
 

@@ -96,8 +96,19 @@ def delete_card(card_id):
 @app.route('/study')
 def study():
     """Study mode - review due flashcards."""
-    due_cards = manager.get_due_flashcards(shuffle=True)
-    return render_template('study.html', cards=due_cards)
+    category_filter = request.args.get('category')
+    
+    # Get all due cards
+    all_due_cards = manager.get_due_flashcards(shuffle=True)
+    
+    # Filter by category if specified
+    if category_filter:
+        due_cards = [card for card in all_due_cards if card.category == category_filter]
+    else:
+        due_cards = all_due_cards
+    
+    categories = manager.get_all_categories()
+    return render_template('study.html', cards=due_cards, categories=categories, selected_category=category_filter)
 
 
 @app.route('/cards/<card_id>/review', methods=['POST'])

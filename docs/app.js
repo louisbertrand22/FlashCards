@@ -27,6 +27,16 @@ class FlashcardManager {
         return 'card_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
     }
 
+    shuffleArray(array) {
+        // Fisher-Yates shuffle algorithm
+        const shuffled = [...array]; // Create a copy to avoid mutating the original
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
     addCard(front, back, difficulty, category = null) {
         const card = {
             id: this.generateId(),
@@ -107,11 +117,7 @@ class FlashcardManager {
         });
         
         if (shuffle) {
-            // Fisher-Yates shuffle algorithm
-            for (let i = dueCards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [dueCards[i], dueCards[j]] = [dueCards[j], dueCards[i]];
-            }
+            return this.shuffleArray(dueCards);
         }
         
         return dueCards;
@@ -156,6 +162,13 @@ class FlashcardManager {
 
 // Global manager instance
 const manager = new FlashcardManager();
+
+// Utility function to escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 
 // View management
 function showView(viewName) {
@@ -390,21 +403,78 @@ document.getElementById('create-card-form').addEventListener('submit', function(
 let currentStudyIndex = 0;
 let studyCards = [];
 let isAnswerRevealed = false;
+let selectedStudyCategory = null;
 
 function loadStudyMode() {
-    studyCards = manager.getDueCards(true); // Enable shuffle
+    const categories = manager.getAllCategories();
+    const categoryFilterContainer = document.getElementById('study-category-filter');
+    
+    // Show category filter if there are categories
+    if (categories.length > 0) {
+        // Count due cards per category
+        const allDueCards = manager.getDueCards(false);
+        const categoryCounts = {};
+        allDueCards.forEach(card => {
+            if (card.category) {
+                categoryCounts[card.category] = (categoryCounts[card.category] || 0) + 1;
+            }
+        });
+        
+        categoryFilterContainer.innerHTML = `
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">📁 Select Category</h5>
+                        <div class="row g-3">
+                            <div class="col-auto">
+                                <select class="form-select" id="study-category-select" onchange="filterStudyByCategory()">
+                                    <option value="">All Categories</option>
+                                    ${categories.map(cat => `
+                                        <option value="${cat}" ${selectedStudyCategory === cat ? 'selected' : ''}>
+                                            ${cat} (${categoryCounts[cat] || 0} due)
+                                        </option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            ${selectedStudyCategory ? `
+                                <div class="col-auto">
+                                    <button class="btn btn-secondary" onclick="clearStudyCategoryFilter()">Clear Filter</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        categoryFilterContainer.innerHTML = '';
+    }
+    
+    // Get cards based on selected category
+    const allDueCards = manager.getDueCards(false);
+    if (selectedStudyCategory) {
+        const filteredCards = allDueCards.filter(card => card.category === selectedStudyCategory);
+        studyCards = manager.shuffleArray(filteredCards);
+    } else {
+        studyCards = manager.getDueCards(true); // Enable shuffle
+    }
+    
     currentStudyIndex = 0;
     isAnswerRevealed = false;
 
     const container = document.getElementById('study-container');
 
     if (studyCards.length === 0) {
+        const message = selectedStudyCategory 
+            ? `You don't have any flashcards due for review in category "${escapeHtml(selectedStudyCategory)}" right now.`
+            : `You don't have any flashcards due for review right now.`;
+        
         container.innerHTML = `
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-success text-center">
                         <h3>✅ All Caught Up!</h3>
-                        <p class="mb-0">You don't have any flashcards due for review right now.</p>
+                        <p class="mb-0">${message}</p>
                         <p class="mt-2 mb-0">
                             <a href="#" onclick="showView('create-card')" class="alert-link">Create more cards</a> 
                             or check back later!
@@ -417,6 +487,17 @@ function loadStudyMode() {
     }
 
     showStudyCard();
+}
+
+function filterStudyByCategory() {
+    const select = document.getElementById('study-category-select');
+    selectedStudyCategory = select.value || null;
+    loadStudyMode();
+}
+
+function clearStudyCategoryFilter() {
+    selectedStudyCategory = null;
+    loadStudyMode();
 }
 
 function showStudyCard() {

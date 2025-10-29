@@ -287,6 +287,81 @@ def test_shuffle_functionality():
     return True
 
 
+def test_category_filtered_study():
+    """Test getting due flashcards filtered by category."""
+    print("Test 8: Testing category-filtered study mode...")
+    
+    # Use a test file
+    test_file = 'test_flashcards_study_filter.json'
+    
+    # Clean up if exists
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    # Create manager with cards in different categories
+    manager = FlashcardManager(test_file)
+    
+    # Add cards with different categories, all due for review
+    card1 = manager.add_flashcard("Python Q1", "Python A1", DifficultyLevel.EASY, category="Programming")
+    card2 = manager.add_flashcard("Python Q2", "Python A2", DifficultyLevel.MEDIUM, category="Programming")
+    card3 = manager.add_flashcard("Python Q3", "Python A3", DifficultyLevel.HARD, category="Programming")
+    card4 = manager.add_flashcard("History Q1", "History A1", DifficultyLevel.EASY, category="History")
+    card5 = manager.add_flashcard("History Q2", "History A2", DifficultyLevel.MEDIUM, category="History")
+    card6 = manager.add_flashcard("Math Q1", "Math A1", DifficultyLevel.EASY, category="Math")
+    card7 = manager.add_flashcard("No category Q", "No category A", DifficultyLevel.EASY)
+    
+    assert len(manager.get_all_flashcards()) == 7
+    print("  ✓ Added 7 flashcards with various categories")
+    
+    # Test getting all due cards (should be all 7 initially)
+    all_due = manager.get_due_flashcards()
+    assert len(all_due) == 7
+    print("  ✓ All cards are due for review")
+    
+    # Test filtering by category
+    programming_due = [c for c in all_due if c.category == "Programming"]
+    assert len(programming_due) == 3
+    print("  ✓ 3 Programming cards are due")
+    
+    history_due = [c for c in all_due if c.category == "History"]
+    assert len(history_due) == 2
+    print("  ✓ 2 History cards are due")
+    
+    math_due = [c for c in all_due if c.category == "Math"]
+    assert len(math_due) == 1
+    print("  ✓ 1 Math card is due")
+    
+    no_category_due = [c for c in all_due if c.category is None]
+    assert len(no_category_due) == 1
+    print("  ✓ 1 card with no category is due")
+    
+    # Mark some Programming cards as reviewed
+    manager.mark_card_reviewed(card1.card_id)
+    manager.mark_card_reviewed(card2.card_id)
+    
+    # Check that only 1 Programming card is still due
+    all_due_after = manager.get_due_flashcards()
+    programming_due_after = [c for c in all_due_after if c.category == "Programming"]
+    assert len(programming_due_after) == 1
+    print("  ✓ Only 1 Programming card is due after reviewing 2")
+    
+    # Other categories should still have same count
+    history_due_after = [c for c in all_due_after if c.category == "History"]
+    assert len(history_due_after) == 2
+    print("  ✓ History cards unchanged (still 2 due)")
+    
+    # Total due should be 5 now (7 - 2 reviewed)
+    assert len(all_due_after) == 5
+    print("  ✓ Total due cards reduced correctly")
+    
+    # Clean up
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    
+    print("✓ Test 8 passed!\n")
+    return True
+
+
 def run_all_tests():
     """Run all tests."""
     print("=" * 60)
@@ -301,7 +376,8 @@ def run_all_tests():
         test_flashcard_manager,
         test_serialization,
         test_category_functionality,
-        test_shuffle_functionality
+        test_shuffle_functionality,
+        test_category_filtered_study
     ]
     
     passed = 0
