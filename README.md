@@ -8,6 +8,8 @@ A Python-based flashcard application for creating and studying flashcards with d
 
 ## Features
 
+- **🔐 JWT Authentication**: Secure user authentication with JSON Web Tokens for multi-user support
+- **🌐 RESTful API**: Complete API for flashcard management with JWT protection
 - **Static Web App**: Pure client-side application hosted on GitHub Pages (no server required!)
 - **Web Interface**: Modern, responsive web application built with Flask (for local/Docker deployment)
 - **CLI Interface**: Beautiful, colorful command-line interface
@@ -151,9 +153,49 @@ python main.py
 6. Use option 3 to study flashcards when they're due for review
 7. The app will automatically schedule the next review based on difficulty
 
+## JWT Authentication API
+
+The application now includes a complete RESTful API with JWT authentication for multi-user support. See [JWT_API_DOCUMENTATION.md](JWT_API_DOCUMENTATION.md) for detailed API documentation including:
+
+- User registration and authentication
+- Token-based authorization
+- Protected flashcard endpoints
+- Token refresh mechanism
+- Complete API reference with examples
+
+**Key Features:**
+- Secure password hashing with bcrypt
+- Access tokens (1 hour expiration)
+- Refresh tokens (30 day expiration)
+- User-specific flashcard isolation
+- Backward compatible with existing functionality
+
+**Quick Example:**
+```bash
+# Register a user
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user", "password": "password123"}'
+
+# Login and get token
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user", "password": "password123"}'
+
+# Use token to create a card
+curl -X POST http://localhost:5000/api/cards \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"recto": "Question", "verso": "Answer", "difficulty": "MEDIUM"}'
+```
+
 ## File Structure
 
-- `app.py`: Flask web application entry point
+- `app.py`: Flask web application entry point with JWT integration
+- `auth.py`: JWT authentication routes (register, login, refresh, user info)
+- `api.py`: Protected API routes for flashcard management
+- `auth_models.py`: User model with password hashing
+- `user_manager.py`: User management and authentication logic
 - `templates/`: HTML templates for the web interface
   - `base.html`: Base template with navigation
   - `index.html`: Dashboard with statistics
@@ -163,10 +205,12 @@ python main.py
   - `study.html`: Interactive study mode
 - `static/css/`: CSS stylesheets for the web interface
 - `main.py`: Command-line interface and application entry point with enhanced UI
-- `flashcard.py`: Flashcard class and difficulty level definitions
+- `flashcard.py`: Flashcard class with user association support
 - `flashcard_manager.py`: Manager class for flashcard collection operations
 - `ui_components.py`: UI utilities providing colors, formatting, and visual enhancements for CLI
 - `flashcards.json`: Persistent storage file (created automatically)
+- `users.json`: User data storage (created automatically)
+- `JWT_API_DOCUMENTATION.md`: Complete API documentation
 
 ## How Difficulty Affects Review Frequency
 

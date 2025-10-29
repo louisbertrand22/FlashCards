@@ -26,7 +26,7 @@ class FlashcardManager:
         self.flashcards = []
         self.load_flashcards()
     
-    def add_flashcard(self, recto, verso, difficulty=DifficultyLevel.MEDIUM, category=None):
+    def add_flashcard(self, recto, verso, difficulty=DifficultyLevel.MEDIUM, category=None, user_id=None):
         """
         Add a new flashcard.
         
@@ -35,11 +35,12 @@ class FlashcardManager:
             verso (str): Back side of the card
             difficulty (DifficultyLevel): Difficulty level
             category (str): Optional category for organizing cards
+            user_id (str): Optional user ID for multi-user support
             
         Returns:
             Flashcard: The created flashcard
         """
-        card = Flashcard(recto, verso, difficulty, category=category)
+        card = Flashcard(recto, verso, difficulty, category=category, user_id=user_id)
         self.flashcards.append(card)
         self.save_flashcards()
         return card
@@ -76,21 +77,34 @@ class FlashcardManager:
                 return card
         return None
     
-    def get_all_flashcards(self):
-        """Get all flashcards."""
-        return self.flashcards
+    def get_all_flashcards(self, user_id=None):
+        """
+        Get all flashcards, optionally filtered by user.
+        
+        Args:
+            user_id (str): Optional user ID to filter by
+            
+        Returns:
+            list: List of flashcards
+        """
+        if user_id is None:
+            return self.flashcards
+        return [card for card in self.flashcards if card.user_id == user_id]
     
-    def get_due_flashcards(self, shuffle=False):
+    def get_due_flashcards(self, shuffle=False, user_id=None):
         """
         Get all flashcards that are due for review.
         
         Args:
             shuffle (bool): If True, return cards in random order
+            user_id (str): Optional user ID to filter by
             
         Returns:
             list: List of due flashcards
         """
         due_cards = [card for card in self.flashcards if card.is_due_for_review()]
+        if user_id is not None:
+            due_cards = [card for card in due_cards if card.user_id == user_id]
         if shuffle:
             random.shuffle(due_cards)
         return due_cards
