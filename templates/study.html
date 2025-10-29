@@ -117,57 +117,69 @@ function revealAnswer(cardId) {
 }
 
 function markReviewed(cardId, remembered) {
-    if (remembered) {
-        fetch(`/cards/${cardId}/review`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
+    fetch(`/cards/${cardId}/review`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            success: remembered
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to mark card as reviewed');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                showSuccess(cardId);
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to mark card as reviewed');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            if (remembered) {
+                showSuccess(cardId, data.streak || 0);
             } else {
-                showError(cardId, data.message || 'Failed to mark card as reviewed');
+                showWarning(cardId);
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showError(cardId, 'An error occurred. Please try again.');
-        });
-    } else {
-        showWarning(cardId);
-    }
+        } else {
+            showError(cardId, data.message || 'Failed to mark card as reviewed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showError(cardId, 'An error occurred. Please try again.');
+    });
 }
 
-function showSuccess(cardId) {
+function showSuccess(cardId, streak) {
     const card = document.getElementById('card-' + cardId);
     card.style.opacity = '0.5';
     card.classList.add('card-completed');
-    card.querySelector('.card-body').innerHTML = '<div class="alert alert-success text-center"><h5>✅ Marked as reviewed!</h5><p class="mb-0">This card has been scheduled for next review.</p></div>';
+    
+    let message = '<div class="alert alert-success text-center"><h5>✅ Marked as reviewed!</h5>';
+    if (streak > 1) {
+        message += `<p class="mb-0">🔥 Success streak: ${streak}! This card has been scheduled for next review.</p>`;
+    } else {
+        message += '<p class="mb-0">This card has been scheduled for next review.</p>';
+    }
+    message += '</div>';
+    
+    card.querySelector('.card-body').innerHTML = message;
     
     setTimeout(() => {
         card.classList.add('hidden');
         checkCompletion();
-    }, 1500);
+    }, 2000);
 }
 
 function showWarning(cardId) {
     const card = document.getElementById('card-' + cardId);
     card.style.opacity = '0.5';
     card.classList.add('card-completed');
-    card.querySelector('.card-body').innerHTML = '<div class="alert alert-warning text-center"><h5>📌 Needs more practice</h5><p class="mb-0">This card will remain in your review queue.</p></div>';
+    card.querySelector('.card-body').innerHTML = '<div class="alert alert-warning text-center"><h5>📌 Needs more practice</h5><p class="mb-0">This card will be reviewed sooner to help you learn it better.</p></div>';
     
     setTimeout(() => {
         card.classList.add('hidden');
         checkCompletion();
-    }, 1500);
+    }, 2000);
 }
 
 function showError(cardId, message) {

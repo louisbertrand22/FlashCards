@@ -89,7 +89,16 @@ class FlashcardCLI:
             print(f"\n{ui.colorize(str(i), Colors.BRIGHT_CYAN)}. [{due_status}] {ui.difficulty_badge(card.difficulty.name)}{category_badge}")
             print(f"   {ui.colorize('Recto:', Colors.YELLOW)} {card.recto}")
             print(f"   {ui.colorize('Verso:', Colors.YELLOW)} {card.verso}")
-            print(f"   {ui.colorize('Reviews:', Colors.CYAN)} {card.review_count}")
+            
+            # Show review stats
+            reviews_info = f"{card.review_count}"
+            if card.review_count > 0:
+                success_rate = card.get_success_rate()
+                if success_rate is not None:
+                    reviews_info += f" ({success_rate:.0%} success)"
+                if card.success_streak > 0:
+                    reviews_info += f" 🔥{card.success_streak}"
+            print(f"   {ui.colorize('Reviews:', Colors.CYAN)} {reviews_info}")
             print(f"   {ui.dim(f'ID: {card.card_id}')}")
     
     def study_flashcards(self):
@@ -154,10 +163,16 @@ class FlashcardCLI:
             response = input(ui.prompt("Did you remember? (y/n)", "y")).strip().lower()
             
             if response in ['y', 'yes', '']:
-                self.manager.mark_card_reviewed(card.card_id)
-                print(ui.success("Marked as reviewed!"))
+                self.manager.mark_card_reviewed(card.card_id, success=True)
+                print(ui.success("✓ Marked as reviewed successfully!"))
+                
+                # Show streak if there is one
+                updated_card = self.manager.get_flashcard(card.card_id)
+                if updated_card.success_streak > 1:
+                    print(ui.colorize(f"  🔥 Success streak: {updated_card.success_streak}!", Colors.BRIGHT_YELLOW))
             else:
-                print(ui.warning("Card will remain in review queue."))
+                self.manager.mark_card_reviewed(card.card_id, success=False)
+                print(ui.warning("✗ Marked as review needed. This card will be reviewed sooner."))
             
             if i < len(due_cards):
                 continue_study = input(ui.prompt("Continue to next card? (y/n)", "y")).strip().lower()
@@ -177,6 +192,12 @@ class FlashcardCLI:
         print(ui.stat_line("Total flashcards", stats['total_cards'], Colors.BRIGHT_CYAN))
         print(ui.stat_line("Due for review", stats['due_for_review'], Colors.BRIGHT_YELLOW))
         print(ui.stat_line("Total reviews completed", stats['total_reviews'], Colors.BRIGHT_GREEN))
+        
+        # Show new review performance stats
+        if stats['total_reviews'] > 0:
+            print(ui.stat_line("Overall success rate", f"{stats['overall_success_rate']}%", Colors.BRIGHT_MAGENTA))
+            print(ui.stat_line("Best success streak", f"🔥 {stats['best_streak']}", Colors.BRIGHT_YELLOW))
+            print(ui.stat_line("Cards with active streaks", stats['cards_with_streaks'], Colors.BRIGHT_GREEN))
         
         print(f"\n{ui.colorize(ui.bold('By difficulty:'), Colors.BRIGHT_WHITE)}")
         print(ui.stat_line("  🟢 Easy", stats['easy_cards'], Colors.BRIGHT_GREEN))
