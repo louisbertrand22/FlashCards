@@ -41,7 +41,11 @@ const FR = {
     'Not Due': 'Pas encore',
     'Easy': 'Facile',
     'Medium': 'Moyen',
-    'Hard': 'Difficile'
+    'Hard': 'Difficile',
+    'Great job!': 'Excellent travail !',
+    'You\'ve completed all due flashcards for now.': 'Vous avez terminé toutes les cartes à réviser pour le moment.',
+    'Cards are presented in random order. Click on a card to reveal the answer, then mark if you remembered it.': 'Les cartes sont présentées dans un ordre aléatoire. Cliquez sur une carte pour révéler la réponse, puis indiquez si vous vous en souvenez.',
+    'You don\'t have any flashcards due for review right now.': 'Vous n\'avez aucune carte à réviser pour le moment.'
 };
 
 function _(text) {
