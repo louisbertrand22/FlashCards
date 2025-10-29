@@ -3,7 +3,8 @@ Flask web application for the Flashcard application.
 Provides a web-based interface for managing and studying flashcards.
 """
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
+from flask_babel import Babel, gettext, lazy_gettext
 from flashcard import DifficultyLevel
 from flashcard_manager import FlashcardManager
 from datetime import datetime
@@ -11,6 +12,16 @@ from datetime import datetime
 app = Flask(__name__)
 # Use environment variable for secret key in production, fallback to default for development
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key-change-in-production')
+
+# Configure Babel
+app.config['BABEL_DEFAULT_LOCALE'] = 'fr'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+
+def get_locale():
+    # Try to get language from session, then from Accept-Language header
+    return session.get('language', request.accept_languages.best_match(['en', 'fr']) or 'fr')
+
+babel = Babel(app, locale_selector=get_locale)
 
 # Configure data directory for Docker volume persistence
 data_dir = os.environ.get('FLASHCARD_DATA_DIR', '.')
@@ -51,12 +62,12 @@ def create_card():
         category = request.form.get('category', '').strip() or None
         
         if not recto or not verso:
-            flash('Both front and back sides are required!', 'error')
+            flash(gettext('Both front and back sides are required!'), 'error')
             return render_template('create_card.html')
         
         difficulty_level = DifficultyLevel[difficulty]
         card = manager.add_flashcard(recto, verso, difficulty_level, category=category)
-        flash(f'Flashcard created successfully! (ID: {card.card_id})', 'success')
+        flash(gettext('Flashcard created successfully! (ID: %(card_id)s)', card_id=card.card_id), 'success')
         return redirect(url_for('view_cards'))
     
     categories = manager.get_all_categories()
@@ -69,7 +80,7 @@ def edit_card(card_id):
     card = manager.get_flashcard(card_id)
     
     if not card:
-        flash('Card not found!', 'error')
+        flash(gettext('Card not found!'), 'error')
         return redirect(url_for('view_cards'))
     
     if request.method == 'POST':
@@ -77,7 +88,7 @@ def edit_card(card_id):
         if difficulty:
             difficulty_level = DifficultyLevel[difficulty]
             manager.update_card_difficulty(card_id, difficulty_level)
-            flash('Card difficulty updated successfully!', 'success')
+            flash(gettext('Card difficulty updated successfully!'), 'success')
             return redirect(url_for('view_cards'))
     
     return render_template('edit_card.html', card=card)
@@ -87,9 +98,9 @@ def edit_card(card_id):
 def delete_card(card_id):
     """Delete a flashcard."""
     if manager.remove_flashcard(card_id):
-        flash('Flashcard deleted successfully!', 'success')
+        flash(gettext('Flashcard deleted successfully!'), 'success')
     else:
-        flash('Card not found!', 'error')
+        flash(gettext('Card not found!'), 'error')
     return redirect(url_for('view_cards'))
 
 
@@ -122,19 +133,19 @@ def mark_reviewed(card_id):
         card = manager.get_flashcard(card_id)
         response_data = {
             'success': True,
-            'message': 'Card marked as reviewed!' if success else 'Card needs more practice.',
+            'message': gettext('Card marked as reviewed!') if success else gettext('Card needs more practice.'),
             'streak': card.success_streak if card else 0
         }
         return jsonify(response_data)
     else:
-        return jsonify({'success': False, 'message': 'Card not found!'}), 404
+        return jsonify({'success': False, 'message': gettext('Card not found!')}), 404
 
 
 @app.template_filter('format_datetime')
 def format_datetime(value):
     """Format datetime for display."""
     if value is None:
-        return 'Never'
+        return gettext('Never')
     if isinstance(value, str):
         value = datetime.fromisoformat(value)
     return value.strftime('%Y-%m-%d %H:%M')

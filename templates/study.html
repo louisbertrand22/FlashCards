@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Study Mode - FlashCards{% endblock %}
+{% block title %}{{ _('Study Mode') }} - {{ _('FlashCards') }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1 class="mb-4">🎯 Study Mode</h1>
+        <h1 class="mb-4">🎯 {{ _('Study Mode') }}</h1>
     </div>
 </div>
 
@@ -15,22 +15,22 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">📁 Select Category</h5>
+                <h5 class="card-title">📁 {{ _('Select Category') }}</h5>
                 <form method="get" action="{{ url_for('study') }}" class="row g-3">
                     <div class="col-auto">
                         <select name="category" class="form-select" id="categorySelect" onchange="this.form.submit()">
-                            <option value="" {% if not selected_category %}selected{% endif %}>All Categories</option>
+                            <option value="" {% if not selected_category %}selected{% endif %}>{{ _('All Categories') }}</option>
                             {% for cat in categories %}
                             <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">{{ _('Filter') }}</button>
                     </div>
                     {% if selected_category %}
                     <div class="col-auto">
-                        <a href="{{ url_for('study') }}" class="btn btn-secondary">Clear Filter</a>
+                        <a href="{{ url_for('study') }}" class="btn btn-secondary">{{ _('Clear Filter') }}</a>
                     </div>
                     {% endif %}
                 </form>
@@ -44,8 +44,8 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="alert alert-warning text-center">
-            <h5>📚 {{ cards|length }} card(s) due for review{% if selected_category %} in category "{{ selected_category }}"{% endif %}!</h5>
-            <p class="mb-0">🔀 Cards are presented in random order. Click on a card to reveal the answer, then mark if you remembered it.</p>
+            <h5>📚 {{ _('%(count)s card(s) due for review', count=cards|length) }}{% if selected_category %} {{ _('in category "%(category)s"', category=selected_category) }}{% endif %}!</h5>
+            <p class="mb-0">🔀 {{ _('Cards are presented in random order. Click on a card to reveal the answer, then mark if you remembered it.') }}</p>
         </div>
 
         <div id="study-cards">
@@ -55,32 +55,32 @@
                     <span class="badge bg-{{ card.difficulty.name|difficulty_color }}">
                         {{ card.difficulty.name|difficulty_emoji }} {{ card.difficulty.name }}
                     </span>
-                    <span class="text-muted">Card {{ loop.index }} of {{ cards|length }}</span>
+                    <span class="text-muted">{{ _('Card %(index)s of %(total)s', index=loop.index, total=cards|length) }}</span>
                 </div>
                 <div class="card-body">
                     <div class="flashcard-front">
-                        <h5 class="card-title text-primary mb-3">Front:</h5>
+                        <h5 class="card-title text-primary mb-3">{{ _('Front:') }}</h5>
                         <div class="flashcard-content">
                             <p class="lead">{{ card.recto }}</p>
                         </div>
                     </div>
                     <hr class="my-4">
                     <div class="flashcard-back" style="display: none;">
-                        <h5 class="card-title text-success mb-3">Back:</h5>
+                        <h5 class="card-title text-success mb-3">{{ _('Back:') }}</h5>
                         <div class="flashcard-content">
                             <p class="lead">{{ card.verso }}</p>
                         </div>
                     </div>
                     <div class="text-center mt-4">
                         <button class="btn btn-primary btn-lg reveal-btn" onclick="revealAnswer('{{ card.card_id }}')">
-                            👁️ Reveal Answer
+                            👁️ {{ _('Reveal Answer') }}
                         </button>
                         <div class="review-buttons" style="display: none;">
                             <button class="btn btn-success btn-lg me-2" onclick="markReviewed('{{ card.card_id }}', true)">
-                                ✅ I Remembered
+                                ✅ {{ _('I Remembered') }}
                             </button>
                             <button class="btn btn-danger btn-lg" onclick="markReviewed('{{ card.card_id }}', false)">
-                                ❌ I Didn't Remember
+                                ❌ {{ _('I Didn\'t Remember') }}
                             </button>
                         </div>
                     </div>
@@ -91,18 +91,18 @@
 
         <div id="completion-message" style="display: none;">
             <div class="alert alert-success text-center">
-                <h4>🎉 Great job!</h4>
-                <p>You've completed all due flashcards for now.</p>
-                <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Dashboard</a>
+                <h4>🎉 {{ _('Great job!') }}</h4>
+                <p>{{ _('You\'ve completed all due flashcards for now.') }}</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">{{ _('Return to Dashboard') }}</a>
             </div>
         </div>
     </div>
 </div>
 {% else %}
 <div class="alert alert-success text-center">
-    <h4>🎉 All caught up!</h4>
-    <p class="mb-3">You don't have any flashcards due for review right now.</p>
-    <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Dashboard</a>
+    <h4>🎉 {{ _('All caught up!') }}</h4>
+    <p class="mb-3">{{ _('You don\'t have any flashcards due for review right now.') }}</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">{{ _('Return to Dashboard') }}</a>
 </div>
 {% endif %}
 {% endblock %}

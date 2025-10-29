@@ -1,5 +1,57 @@
 // FlashCards Application - Client-Side JavaScript
 
+// French translations
+const FR = {
+    'Both front and back sides are required!': 'Les côtés recto et verso sont obligatoires !',
+    'Flashcard created successfully!': 'Carte mémoire créée avec succès !',
+    'Card difficulty updated successfully!': 'Difficulté de la carte mise à jour avec succès !',
+    'Failed to update card!': 'Échec de la mise à jour de la carte !',
+    'Flashcard deleted successfully!': 'Carte mémoire supprimée avec succès !',
+    'Failed to delete card!': 'Échec de la suppression de la carte !',
+    'Are you sure you want to delete this card?': 'Êtes-vous sûr de vouloir supprimer cette carte ?',
+    'Front:': 'Recto :',
+    'Back:': 'Verso :',
+    'Category:': 'Catégorie :',
+    'Reviews:': 'Révisions :',
+    'Last reviewed:': 'Dernière révision :',
+    'Next review:': 'Prochaine révision :',
+    'Never': 'Jamais',
+    'Edit Difficulty': 'Modifier la difficulté',
+    'Delete': 'Supprimer',
+    'Study Now': 'Réviser maintenant',
+    'cards due': 'cartes à réviser',
+    'All caught up!': 'Tout est à jour !',
+    'Create New Card': 'Créer une nouvelle carte',
+    'View All Cards': 'Voir toutes les cartes',
+    'No cards available': 'Aucune carte disponible',
+    'You don\'t have any flashcards yet.': 'Vous n\'avez pas encore de cartes mémoire.',
+    'Create your first card to get started!': 'Créez votre première carte pour commencer !',
+    'All Categories': 'Toutes les catégories',
+    'Filter': 'Filtrer',
+    'card(s) due for review': 'carte(s) à réviser',
+    'in category': 'dans la catégorie',
+    'Reveal Answer': 'Révéler la réponse',
+    'I Remembered': 'Je me souviens',
+    'I Didn\'t Remember': 'Je ne me souviens pas',
+    'All caught up! No cards due for review.': 'Tout est à jour ! Aucune carte à réviser.',
+    'Return to Dashboard': 'Retour au tableau de bord',
+    'Card': 'Carte',
+    'of': 'sur',
+    'Due for Review': 'À réviser',
+    'Not Due': 'Pas encore',
+    'Easy': 'Facile',
+    'Medium': 'Moyen',
+    'Hard': 'Difficile',
+    'Great job!': 'Excellent travail !',
+    'You\'ve completed all due flashcards for now.': 'Vous avez terminé toutes les cartes à réviser pour le moment.',
+    'Cards are presented in random order. Click on a card to reveal the answer, then mark if you remembered it.': 'Les cartes sont présentées dans un ordre aléatoire. Cliquez sur une carte pour révéler la réponse, puis indiquez si vous vous en souvenez.',
+    'You don\'t have any flashcards due for review right now.': 'Vous n\'avez aucune carte à réviser pour le moment.'
+};
+
+function _(text) {
+    return FR[text] || text;
+}
+
 // Difficulty levels and their review intervals
 const DIFFICULTY = {
     EASY: { days: 7, emoji: '🟢', color: 'success' },
@@ -248,25 +300,25 @@ function loadDashboard() {
     if (stats.due > 0) {
         quickActions.innerHTML = `
             <button class="btn btn-warning btn-lg" onclick="showView('study')">
-                🎯 Study Now (${stats.due} cards due)
+                🎯 ${_('Study Now')} (${stats.due} ${_('cards due')})
             </button>
             <button class="btn btn-primary btn-lg" onclick="showView('create-card')">
-                📝 Create New Card
+                📝 ${_('Create New Card')}
             </button>
             <button class="btn btn-secondary btn-lg" onclick="showView('all-cards')">
-                📚 View All Cards
+                📚 ${_('View All Cards')}
             </button>
         `;
     } else {
         quickActions.innerHTML = `
             <button class="btn btn-success btn-lg" disabled>
-                ✅ All caught up!
+                ✅ ${_('All caught up!')}
             </button>
             <button class="btn btn-primary btn-lg" onclick="showView('create-card')">
-                📝 Create New Card
+                📝 ${_('Create New Card')}
             </button>
             <button class="btn btn-secondary btn-lg" onclick="showView('all-cards')">
-                📚 View All Cards
+                📚 ${_('View All Cards')}
             </button>
         `;
     }
@@ -330,7 +382,7 @@ function loadAllCards(categoryFilter = null) {
         const difficulty = DIFFICULTY[card.difficulty];
         const isDue = new Date(card.nextReview) <= new Date();
         const nextReviewDate = formatDate(card.nextReview);
-        const lastReviewDate = card.lastReviewed ? formatDate(card.lastReviewed) : 'Never';
+        const lastReviewDate = card.lastReviewed ? formatDate(card.lastReviewed) : _('Never');
 
         return `
             <div class="col-md-6 mb-4">
@@ -345,25 +397,25 @@ function loadAllCards(categoryFilter = null) {
                         <small class="text-muted">ID: ${card.id.slice(-8)}</small>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">📝 Front:</h5>
+                        <h5 class="card-title">📝 ${_('Front:')}</h5>
                         <p class="card-text">${escapeHtml(card.front)}</p>
-                        <h5 class="card-title mt-3">💡 Back:</h5>
+                        <h5 class="card-title mt-3">💡 ${_('Back:')}</h5>
                         <p class="card-text">${escapeHtml(card.back)}</p>
                         
                         <div class="card-meta mt-3">
                             <small>
-                                <strong>Next Review:</strong> ${nextReviewDate}<br>
-                                <strong>Last Reviewed:</strong> ${lastReviewDate}<br>
-                                <strong>Review Count:</strong> ${card.reviewCount}
+                                <strong>${_('Next review:')}</strong> ${nextReviewDate}<br>
+                                <strong>${_('Last reviewed:')}</strong> ${lastReviewDate}<br>
+                                <strong>${_('Reviews:')}</strong> ${card.reviewCount}
                             </small>
                         </div>
                     </div>
                     <div class="card-footer d-flex gap-2">
                         <button class="btn btn-sm btn-primary" onclick="editCard('${card.id}')">
-                            ✏️ Edit
+                            ✏️ ${_('Edit Difficulty')}
                         </button>
                         <button class="btn btn-sm btn-danger" onclick="confirmDelete('${card.id}')">
-                            🗑️ Delete
+                            🗑️ ${_('Delete')}
                         </button>
                     </div>
                 </div>
@@ -382,12 +434,12 @@ document.getElementById('create-card-form').addEventListener('submit', function(
     const category = document.getElementById('card-category').value.trim() || null;
 
     if (!front || !back) {
-        showAlert('Both front and back sides are required!', 'danger');
+        showAlert(_('Both front and back sides are required!'), 'danger');
         return;
     }
 
     manager.addCard(front, back, difficulty, category);
-    showAlert('Flashcard created successfully!', 'success');
+    showAlert(_('Flashcard created successfully!'), 'success');
     
     // Reset form
     this.reset();
@@ -466,18 +518,17 @@ function loadStudyMode() {
 
     if (studyCards.length === 0) {
         const message = selectedStudyCategory 
-            ? `You don't have any flashcards due for review in category "${escapeHtml(selectedStudyCategory)}" right now.`
-            : `You don't have any flashcards due for review right now.`;
+            ? `${_('You don\'t have any flashcards due for review right now.')}`
+            : _('You don\'t have any flashcards due for review right now.');
         
         container.innerHTML = `
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-success text-center">
-                        <h3>✅ All Caught Up!</h3>
+                        <h3>✅ ${_('All caught up!')}</h3>
                         <p class="mb-0">${message}</p>
                         <p class="mt-2 mb-0">
-                            <a href="#" onclick="showView('create-card')" class="alert-link">Create more cards</a> 
-                            or check back later!
+                            <a href="#" onclick="showView('create-card')" class="alert-link">${_('Create New Card')}</a>
                         </p>
                     </div>
                 </div>
@@ -507,10 +558,10 @@ function showStudyCard() {
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-success text-center">
-                        <h3>🎉 Study Session Complete!</h3>
-                        <p>You've reviewed ${studyCards.length} flashcard${studyCards.length > 1 ? 's' : ''}!</p>
+                        <h3>🎉 ${_('Great job!')}</h3>
+                        <p>${_('You\'ve completed all due flashcards for now.')}</p>
                         <button class="btn btn-primary" onclick="showView('dashboard')">
-                            Back to Dashboard
+                            ${_('Return to Dashboard')}
                         </button>
                     </div>
                 </div>
@@ -527,7 +578,7 @@ function showStudyCard() {
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="alert alert-info text-center mb-4">
-                    🔀 Cards are presented in random order
+                    🔀 ${_('Cards are presented in random order. Click on a card to reveal the answer, then mark if you remembered it.')}
                 </div>
                 <div class="mb-3">
                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -555,14 +606,14 @@ function showStudyCard() {
 
                         <div class="d-grid gap-2 mt-4">
                             <button id="reveal-btn" class="btn btn-primary btn-lg" onclick="revealAnswer()">
-                                👁️ Reveal Answer
+                                👁️ ${_('Reveal Answer')}
                             </button>
                             <div id="review-buttons" class="hidden">
                                 <button class="btn btn-success btn-lg w-100 mb-2" onclick="markReviewedAndNext('${card.id}')">
-                                    ✅ Mark as Reviewed
+                                    ✅ ${_('I Remembered')}
                                 </button>
                                 <button class="btn btn-secondary" onclick="nextCard()">
-                                    ⏭️ Skip
+                                    ⏭️ ${_('I Didn\'t Remember')}
                                 </button>
                             </div>
                         </div>
@@ -610,24 +661,24 @@ function saveCardEdit() {
     const difficulty = document.getElementById('edit-difficulty').value;
 
     if (manager.updateCardDifficulty(cardId, difficulty)) {
-        showAlert('Card difficulty updated successfully!', 'success');
+        showAlert(_('Card difficulty updated successfully!'), 'success');
         loadAllCards(currentCategoryFilter);
         
         const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
         modal.hide();
     } else {
-        showAlert('Failed to update card!', 'danger');
+        showAlert(_('Failed to update card!'), 'danger');
     }
 }
 
 // Delete card functions
 function confirmDelete(cardId) {
-    if (confirm('Are you sure you want to delete this flashcard? This action cannot be undone.')) {
+    if (confirm(_('Are you sure you want to delete this card?'))) {
         if (manager.deleteCard(cardId)) {
-            showAlert('Flashcard deleted successfully!', 'success');
+            showAlert(_('Flashcard deleted successfully!'), 'success');
             loadAllCards(currentCategoryFilter);
         } else {
-            showAlert('Failed to delete card!', 'danger');
+            showAlert(_('Failed to delete card!'), 'danger');
         }
     }
 }
