@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlashCards - Study Smarter</title>
+    <title>FlashCards - Révisez intelligemment</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -19,16 +19,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showView('dashboard')">📊 Dashboard</a>
+                        <a class="nav-link" href="#" onclick="showView('dashboard')">📊 Tableau de bord</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showView('all-cards')">📚 All Cards</a>
+                        <a class="nav-link" href="#" onclick="showView('all-cards')">📚 Toutes les cartes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showView('create-card')">📝 Create Card</a>
+                        <a class="nav-link" href="#" onclick="showView('create-card')">📝 Créer une carte</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showView('study')">🎯 Study</a>
+                        <a class="nav-link" href="#" onclick="showView('study')">🎯 Réviser</a>
                     </li>
                 </ul>
             </div>
@@ -42,7 +42,7 @@
         <div id="dashboard-view" class="view">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mb-4">📊 Dashboard</h1>
+                    <h1 class="mb-4">📊 Tableau de bord</h1>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                 <div class="col-md-3 mb-4">
                     <div class="card text-center stat-card">
                         <div class="card-body">
-                            <h5 class="card-title text-muted">Total Cards</h5>
+                            <h5 class="card-title text-muted">Total de cartes</h5>
                             <h2 class="display-4 text-primary" id="stat-total-cards">0</h2>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="col-md-3 mb-4">
                     <div class="card text-center stat-card">
                         <div class="card-body">
-                            <h5 class="card-title text-muted">Due for Review</h5>
+                            <h5 class="card-title text-muted">À réviser</h5>
                             <h2 class="display-4 text-warning" id="stat-due-cards">0</h2>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                 <div class="col-md-3 mb-4">
                     <div class="card text-center stat-card">
                         <div class="card-body">
-                            <h5 class="card-title text-muted">Total Reviews</h5>
+                            <h5 class="card-title text-muted">Total de révisions</h5>
                             <h2 class="display-4 text-success" id="stat-total-reviews">0</h2>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="col-md-3 mb-4">
                     <div class="card text-center stat-card">
                         <div class="card-body">
-                            <h5 class="card-title text-muted">Study Progress</h5>
+                            <h5 class="card-title text-muted">Progrès d'étude</h5>
                             <h2 class="display-4 text-info" id="stat-progress">0%</h2>
                         </div>
                     </div>
@@ -85,20 +85,20 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0">📈 Cards by Difficulty</h5>
+                            <h5 class="mb-0">📈 Cartes par difficulté</h5>
                         </div>
                         <div class="card-body">
                             <div class="difficulty-stats">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>🟢 Easy</span>
+                                    <span>🟢 Facile</span>
                                     <span class="badge bg-success" id="stat-easy-cards">0</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>🟡 Medium</span>
+                                    <span>🟡 Moyen</span>
                                     <span class="badge bg-warning" id="stat-medium-cards">0</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span>🔴 Hard</span>
+                                    <span>🔴 Difficile</span>
                                     <span class="badge bg-danger" id="stat-hard-cards">0</span>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0">🎯 Quick Actions</h5>
+                            <h5 class="mb-0">🎯 Actions rapides</h5>
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2" id="quick-actions">
@@ -122,8 +122,8 @@
             <div class="row mt-4" id="welcome-message" style="display: none;">
                 <div class="col-md-12">
                     <div class="alert alert-info text-center">
-                        <h4>👋 Welcome to FlashCards!</h4>
-                        <p class="mb-0">You don't have any flashcards yet. <a href="#" onclick="showView('create-card')" class="alert-link">Create your first card</a> to get started!</p>
+                        <h4>👋 Bienvenue sur FlashCards !</h4>
+                        <p class="mb-0">Vous n'avez pas encore de cartes mémoire. <a href="#" onclick="showView('create-card')" class="alert-link">Créez votre première carte</a> pour commencer !</p>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
         <div id="all-cards-view" class="view hidden">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mb-4">📚 All Flashcards</h1>
+                    <h1 class="mb-4">📚 Toutes les cartes mémoire</h1>
                 </div>
             </div>
             <div id="category-filter-container">
@@ -148,7 +148,7 @@
         <div id="create-card-view" class="view hidden">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mb-4">📝 Create New Flashcard</h1>
+                    <h1 class="mb-4">📝 Créer une nouvelle carte mémoire</h1>
                 </div>
             </div>
             <div class="row">
@@ -157,35 +157,35 @@
                         <div class="card-body">
                             <form id="create-card-form">
                                 <div class="mb-3">
-                                    <label for="card-front" class="form-label">Front Side (Question)</label>
+                                    <label for="card-front" class="form-label">Côté recto (Question)</label>
                                     <textarea class="form-control" id="card-front" rows="3" required 
-                                        placeholder="Enter the question or prompt..."></textarea>
+                                        placeholder="Entrez la question ou l'indication..."></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="card-back" class="form-label">Back Side (Answer)</label>
+                                    <label for="card-back" class="form-label">Côté verso (Réponse)</label>
                                     <textarea class="form-control" id="card-back" rows="3" required 
-                                        placeholder="Enter the answer..."></textarea>
+                                        placeholder="Entrez la réponse..."></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="card-category" class="form-label">Category</label>
+                                    <label for="card-category" class="form-label">Catégorie</label>
                                     <input type="text" class="form-control" id="card-category" list="category-suggestions"
-                                        placeholder="e.g., Python, History, Science... (optional)">
+                                        placeholder="ex : Python, Histoire, Sciences... (optionnel)">
                                     <datalist id="category-suggestions">
                                         <!-- Populated by JavaScript -->
                                     </datalist>
-                                    <div class="form-text">Optional: Add a category to organize your flashcards.</div>
+                                    <div class="form-text">Optionnel : Ajoutez une catégorie pour organiser vos cartes mémoire.</div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="card-difficulty" class="form-label">Difficulty Level</label>
+                                    <label for="card-difficulty" class="form-label">Niveau de difficulté</label>
                                     <select class="form-select" id="card-difficulty" required>
-                                        <option value="EASY">🟢 Easy (Review every 7 days)</option>
-                                        <option value="MEDIUM" selected>🟡 Medium (Review every 3 days)</option>
-                                        <option value="HARD">🔴 Hard (Review daily)</option>
+                                        <option value="EASY">🟢 Facile (Révision tous les 7 jours)</option>
+                                        <option value="MEDIUM" selected>🟡 Moyen (Révision tous les 3 jours)</option>
+                                        <option value="HARD">🔴 Difficile (Révision quotidienne)</option>
                                     </select>
                                 </div>
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary btn-lg">Create Flashcard</button>
-                                    <button type="button" class="btn btn-secondary" onclick="showView('dashboard')">Cancel</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Créer la carte mémoire</button>
+                                    <button type="button" class="btn btn-secondary" onclick="showView('dashboard')">Annuler</button>
                                 </div>
                             </form>
                         </div>
@@ -198,7 +198,7 @@
         <div id="study-view" class="view hidden">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mb-4">🎯 Study Mode</h1>
+                    <h1 class="mb-4">🎯 Mode révision</h1>
                 </div>
             </div>
             <!-- Category Selection -->
@@ -215,25 +215,25 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Card Difficulty</h5>
+                        <h5 class="modal-title">Modifier la difficulté de la carte</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <form id="edit-card-form">
                             <input type="hidden" id="edit-card-id">
                             <div class="mb-3">
-                                <label for="edit-difficulty" class="form-label">Difficulty Level</label>
+                                <label for="edit-difficulty" class="form-label">Niveau de difficulté</label>
                                 <select class="form-select" id="edit-difficulty" required>
-                                    <option value="EASY">🟢 Easy (Review every 7 days)</option>
-                                    <option value="MEDIUM">🟡 Medium (Review every 3 days)</option>
-                                    <option value="HARD">🔴 Hard (Review daily)</option>
+                                    <option value="EASY">🟢 Facile (Révision tous les 7 jours)</option>
+                                    <option value="MEDIUM">🟡 Moyen (Révision tous les 3 jours)</option>
+                                    <option value="HARD">🔴 Difficile (Révision quotidienne)</option>
                                 </select>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="saveCardEdit()">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" onclick="saveCardEdit()">Enregistrer les modifications</button>
                     </div>
                 </div>
             </div>
@@ -242,7 +242,7 @@
 
     <footer class="footer mt-5 py-3 bg-light">
         <div class="container text-center">
-            <span class="text-muted">FlashCards Application - Made with ❤️ using JavaScript & Bootstrap</span>
+            <span class="text-muted">Application FlashCards - Fait avec ❤️ en utilisant JavaScript & Bootstrap</span>
         </div>
     </footer>
 
