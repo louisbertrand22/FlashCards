@@ -3,6 +3,7 @@ Flask web application for the Flashcard application.
 Provides a web-based interface for managing and studying flashcards.
 """
 import os
+import sys
 from datetime import timedelta
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_babel import Babel, gettext, lazy_gettext
@@ -41,15 +42,15 @@ try:
     elif not os.path.isdir(data_dir):
         print(f"Error: {data_dir} exists but is not a directory")
         print("Please specify a valid directory path in FLASHCARD_DATA_DIR environment variable")
-        raise SystemExit(1)
+        sys.exit(1)
 except PermissionError:
     print(f"Error: Permission denied when trying to create directory {data_dir}")
     print("Please check permissions or choose a different location")
-    raise SystemExit(1)
+    sys.exit(1)
 except OSError as e:
     print(f"Error: Could not create data directory {data_dir}: {e}")
     print("Please check that the path is valid and accessible")
-    raise SystemExit(1)
+    sys.exit(1)
 
 storage_file = os.path.join(data_dir, 'flashcards.json')
 
