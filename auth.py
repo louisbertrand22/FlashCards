@@ -2,6 +2,7 @@
 Authentication routes and JWT management for the Flashcard application.
 """
 import os
+import sys
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from user_manager import UserManager
@@ -10,8 +11,21 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 # Configure data directory for user storage
 data_dir = os.environ.get('FLASHCARD_DATA_DIR', '.')
-if not os.path.exists(data_dir):
-    os.makedirs(data_dir)
+try:
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+    elif not os.path.isdir(data_dir):
+        print(f"Error: {data_dir} exists but is not a directory")
+        print("Please specify a valid directory path in FLASHCARD_DATA_DIR environment variable")
+        sys.exit(1)
+except PermissionError:
+    print(f"Error: Permission denied when trying to create directory {data_dir}")
+    print("Please check permissions or choose a different location")
+    sys.exit(1)
+except OSError as e:
+    print(f"Error: Could not create data directory {data_dir}: {e}")
+    print("Please check that the path is valid and accessible")
+    sys.exit(1)
 user_storage_file = os.path.join(data_dir, 'users.json')
 
 # Initialize user manager
