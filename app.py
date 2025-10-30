@@ -33,8 +33,24 @@ babel = Babel(app, locale_selector=get_locale)
 
 # Configure data directory for Docker volume persistence
 data_dir = os.environ.get('FLASHCARD_DATA_DIR', '.')
-if not os.path.exists(data_dir):
-    os.makedirs(data_dir)
+
+# Ensure data directory exists and is valid
+try:
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+    elif not os.path.isdir(data_dir):
+        print(f"Error: {data_dir} exists but is not a directory")
+        print("Please specify a valid directory path in FLASHCARD_DATA_DIR environment variable")
+        raise SystemExit(1)
+except PermissionError:
+    print(f"Error: Permission denied when trying to create directory {data_dir}")
+    print("Please check permissions or choose a different location")
+    raise SystemExit(1)
+except OSError as e:
+    print(f"Error: Could not create data directory {data_dir}: {e}")
+    print("Please check that the path is valid and accessible")
+    raise SystemExit(1)
+
 storage_file = os.path.join(data_dir, 'flashcards.json')
 
 # Initialize flashcard manager
