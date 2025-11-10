@@ -989,5 +989,16 @@
     "next_review": "2025-10-27T22:09:41.699206",
     "review_count": 0,
     "category": "Cinema"
+  },
+  {
+    "card_id": "card_cine_18",
+    "recto": "Fondateur de la Walt Disney Company",
+    "verso": "Walt DISNEY",
+    "difficulty": "EASY",
+    "created_at": "2025-10-27T22:09:41.699206",
+    "last_reviewed": null,
+    "next_review": "2025-10-27T22:09:41.699206",
+    "review_count": 0,
+    "category": "Cinema"
   }
 ]
